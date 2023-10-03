@@ -11,7 +11,8 @@
     "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx,json}",
     "preview": "vite preview",
     "format": "prettier --check src/**/*.{js,jsx,ts,tsx,css,scss,md,json} --config ./.prettierrc",
-    "format:fix": "prettier --write src/**/*.{js,jsx,ts,tsx,css,scss,md,json} --config ./.prettierrc"
+    "format:fix": "prettier --write src/**/*.{js,jsx,ts,tsx,css,scss,md,json} --config ./.prettierrc",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*": [
