@@ -1,0 +1,37 @@
+@import 'normalize.css';
+@import 'variables';
+
+@font-face {
+  font-family: STARWARS;
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('@/assets/fonts/STARWARS.woff2') format('woff2'),
+    url('@/assets/fonts/STARWARS.woff') format('woff'),
+    url('@/assets/fonts/STARWARS.ttf') format('truetype');
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  color: $light-text-color;
+  background-color: $dark-background-color;
+}
+
+h1 {
+  font-family: STARWARS, sans-serif;
+  font-size: 5rem;
+  font-style: normal;
+  font-weight: normal;
+  color: $dark-background-color;
+  text-shadow:
+    -1px 0 $light-text-shadow,
+    0 1px $light-text-shadow,
+    1px 0 $light-text-shadow,
+    0 -1px $light-text-shadow;
+  text-transform: uppercase;
+}
