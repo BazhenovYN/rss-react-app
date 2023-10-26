@@ -5,13 +5,15 @@ import TextField from '@/components/common/TextField';
 import CardList from '@/components/features/CardList';
 import { getApiData } from '@/services/sw-service';
 import type { EmptyObject, IPeople } from '@/types';
+import { getFromLocalStorage, saveToLocalStorage } from '@/utils/storageUtils';
 
 import styles from './SearchPanel.module.scss';
 
+const SEARCH_TERM_KEY = 'searchTerm';
 const SEARCH_PLACEHOLDER = 'You looking for, who are?';
 
 interface State {
-  query: string;
+  searchTerm: string;
   isLoading: boolean;
   data: IPeople[];
 }
@@ -20,7 +22,7 @@ export default class SearchPanel extends Component<EmptyObject, State> {
   controller?: AbortController;
 
   state: State = {
-    query: '',
+    searchTerm: getFromLocalStorage<string>(SEARCH_TERM_KEY) || '',
     isLoading: false,
     data: [],
   };
@@ -32,11 +34,8 @@ export default class SearchPanel extends Component<EmptyObject, State> {
       isLoading: true,
       data: [],
     });
-    const queryParams = this.state.query
-      ? [{ key: 'search', value: this.state.query }]
-      : [];
     try {
-      const data = await getApiData(queryParams, {
+      const data = await getApiData(this.state.searchTerm, {
         signal: this.controller.signal,
       });
       this.setState({
@@ -68,6 +67,7 @@ export default class SearchPanel extends Component<EmptyObject, State> {
 
   handleSearch = () => {
     this.getData();
+    saveToLocalStorage(SEARCH_TERM_KEY, this.state.searchTerm);
   };
 
   render() {
@@ -79,10 +79,10 @@ export default class SearchPanel extends Component<EmptyObject, State> {
             className={styles.input}
             placeholder={SEARCH_PLACEHOLDER}
             autoComplete="off"
-            value={this.state.query}
+            value={this.state.searchTerm}
             onChange={(event) => {
               this.setState({
-                query: event.target.value,
+                searchTerm: event.target.value,
               });
             }}
           />
