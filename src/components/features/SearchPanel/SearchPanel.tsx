@@ -3,6 +3,7 @@ import { FaSearch } from 'react-icons/fa';
 import Button from '@/components/common/Button';
 import TextField from '@/components/common/TextField';
 import CardList from '@/components/features/CardList';
+import Loader from '@/components/features/Loader';
 import { getApiData } from '@/services/sw-service';
 import type { EmptyObject, IPeople } from '@/types';
 import { getFromLocalStorage, saveToLocalStorage } from '@/utils/storageUtils';
@@ -67,12 +68,12 @@ export default class SearchPanel extends Component<EmptyObject, State> {
 
   handleSearch = () => {
     this.getData();
-    saveToLocalStorage(SEARCH_TERM_KEY, this.state.searchTerm);
+    saveToLocalStorage(SEARCH_TERM_KEY, this.state.searchTerm.trim());
   };
 
   render() {
     return (
-      <div>
+      <div className={styles.container}>
         <div className={styles.panel}>
           <TextField
             name="search"
@@ -96,7 +97,9 @@ export default class SearchPanel extends Component<EmptyObject, State> {
           </Button>
         </div>
         {this.state.isLoading ? (
-          <p>Loading...</p>
+          <div className={styles.loader}>
+            <Loader />
+          </div>
         ) : (
           <CardList items={this.state.data} />
         )}
