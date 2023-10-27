@@ -1,11 +1,18 @@
+import { Component } from 'react';
+import ErrorBoundary from '@/components/features/ErrorBoundary';
+import { NotificationProvider } from '@/components/features/NotificationManager';
 import Home from '@/pages/Home';
 
-function App() {
-  return (
-    <main>
-      <Home />
-    </main>
-  );
+export default class App extends Component {
+  render() {
+    return (
+      <ErrorBoundary>
+        <NotificationProvider>
+          <main>
+            <Home />
+          </main>
+        </NotificationProvider>
+      </ErrorBoundary>
+    );
+  }
 }
-
-export default App;

@@ -17,12 +17,18 @@
 }
 
 body {
+  overflow-y: scroll;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   color: $light-text-color;
   background-color: $dark-background-color;
+  background-image: url('@/assets/images/stars.jpg');
+  background-repeat: repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 h1 {
+  margin-bottom: 0.5rem;
   font-family: STARWARS, sans-serif;
   font-size: 5rem;
   font-style: normal;

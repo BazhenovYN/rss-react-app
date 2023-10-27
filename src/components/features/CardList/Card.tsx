@@ -21,7 +21,7 @@ export default class Card extends Component<Props> {
     return (
       <div className={styles.card}>
         <div className={styles.content}>
-          <h3>{name}</h3>
+          <h3 className={styles.name}>{name}</h3>
           <div>
             <span>Gender: </span>
             <span>{gender}</span>

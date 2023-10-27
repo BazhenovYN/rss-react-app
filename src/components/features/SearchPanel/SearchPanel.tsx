@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, ContextType } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Button from '@/components/common/Button';
 import TextField from '@/components/common/TextField';
@@ -9,6 +9,7 @@ import type { EmptyObject, IPeople } from '@/types';
 import { getFromLocalStorage, saveToLocalStorage } from '@/utils/storageUtils';
 
 import styles from './SearchPanel.module.scss';
+import NotificationContext from '../NotificationManager';
 
 const SEARCH_TERM_KEY = 'searchTerm';
 const SEARCH_PLACEHOLDER = 'You looking for, who are?';
@@ -20,6 +21,9 @@ interface State {
 }
 
 export default class SearchPanel extends Component<EmptyObject, State> {
+  static contextType = NotificationContext;
+  declare context: ContextType<typeof NotificationContext>;
+
   controller?: AbortController;
 
   state: State = {
@@ -60,6 +64,8 @@ export default class SearchPanel extends Component<EmptyObject, State> {
 
   componentDidMount() {
     this.getData();
+    const { showMessage } = this.context;
+    showMessage('This API is not very fast and stable. Please keep calm:)');
   }
 
   componentWillUnmount() {

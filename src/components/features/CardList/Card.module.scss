@@ -1,14 +1,19 @@
 @import '@/styles/variables';
 
 .card {
+  position: relative;
   padding: 15px;
-  margin-top: 15px;
-  border: 1px solid $light-text-color;
-  border-radius: 5px;
+  margin-top: 30px;
+  border: 4px double $light-text-color;
+  border-radius: 15px;
 }
 
 .content {
   position: relative;
+}
+
+.name {
+  margin: 0 0 10px;
 }
 
 .details {
