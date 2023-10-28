@@ -10,7 +10,7 @@ export default class CardList extends Component<Props> {
   render() {
     const { items } = this.props;
     if (!items.length) {
-      return <p>Nothing found</p>;
+      return <h2>Nothing found</h2>;
     }
 
     return (

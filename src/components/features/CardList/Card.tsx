@@ -20,27 +20,29 @@ export default class Card extends Component<Props> {
     } = this.props.content;
     return (
       <div className={styles.card}>
-        <div className={styles.content}>
-          <h3 className={styles.name}>{name}</h3>
-          <div>
-            <span>Gender: </span>
-            <span>{gender}</span>
+        <h3 className={styles.name}>{name}</h3>
+        <div className={styles.description}>
+          <div className={styles.characteristics}>
+            <div className={styles.item}>
+              <span>Gender: </span>
+              <span>{gender}</span>
+            </div>
+            <div className={styles.item}>
+              <span>Height: </span>
+              <span>{height}</span>
+            </div>
+            <div className={styles.item}>
+              <span>Skin color: </span>
+              <span>{skinColor}</span>
+            </div>
+            <div className={styles.item}>
+              <span>Hair color: </span>
+              <span>{hairColor}</span>
+            </div>
           </div>
-          <div>
-            <span>Height: </span>
-            <span>{height}</span>
+          <div className={styles.details}>
+            <Button endIcon={<FaChevronRight />}>Details</Button>
           </div>
-          <div>
-            <span>Skin color: </span>
-            <span>{skinColor}</span>
-          </div>
-          <div>
-            <span>Hair color: </span>
-            <span>{hairColor}</span>
-          </div>
-          <Button className={styles.details} endIcon={<FaChevronRight />}>
-            Details
-          </Button>
         </div>
       </div>
     );

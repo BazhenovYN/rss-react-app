@@ -2,22 +2,41 @@
 
 .card {
   position: relative;
+  max-width: 350px;
   padding: 15px;
   margin-top: 30px;
-  border: 4px double $light-text-color;
+  background: $dark-background-color;
+  border: 4px double $default-border-color;
   border-radius: 15px;
+  box-shadow: 1px 0 9px 5px $primary-box-shadow;
+  transition: all 0.3s;
+
+  &:hover {
+    box-shadow: 1px 0 9px 5px $secondary-box-shadow;
+    transform: scale(1.05);
+  }
 }
 
-.content {
-  position: relative;
+.description {
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.characteristics {
+  display: flex;
+  flex-direction: column;
 }
 
 .name {
   margin: 0 0 10px;
 }
 
+.item span:nth-child(2) {
+  font-style: italic;
+}
+
 .details {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+  display: flex;
+  align-items: end;
 }

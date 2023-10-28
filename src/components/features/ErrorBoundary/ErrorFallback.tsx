@@ -12,7 +12,7 @@ export default class ErrorFallback extends Component<Props> {
     return (
       <div className={styles.container}>
         <FaSkullCrossbones className={styles.icon} />
-        <h2>Something went wrong</h2>
+        <h3>Something went wrong</h3>
         <p>{this.props.message}</p>
       </div>
     );
