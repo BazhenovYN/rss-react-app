@@ -8,7 +8,7 @@ import { getApiData } from '@/services/sw-service';
 import type { EmptyObject, IPeople } from '@/types';
 import { getFromLocalStorage, saveToLocalStorage } from '@/utils/storageUtils';
 
-import styles from './SearchPanel.module.scss';
+import styles from './SearchView.module.scss';
 
 const SEARCH_TERM_KEY = 'searchTerm';
 const SEARCH_PLACEHOLDER = 'You looking for, who are?';
@@ -19,7 +19,7 @@ interface State {
   data: IPeople[];
 }
 
-export default class SearchPanel extends Component<EmptyObject, State> {
+export default class SearchView extends Component<EmptyObject, State> {
   controller?: AbortController;
 
   state: State = {
@@ -97,7 +97,7 @@ export default class SearchPanel extends Component<EmptyObject, State> {
           </Button>
         </div>
         {this.state.isLoading ? (
-          <div className={styles.loader}>
+          <div className={styles['loader-container']}>
             <Loader />
           </div>
         ) : (
