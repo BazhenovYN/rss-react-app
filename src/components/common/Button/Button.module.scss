@@ -5,16 +5,16 @@
   font-size: 16px;
   color: $light-text-color;
   cursor: pointer;
-  background-color: #6c8eb1;
+  background-color: $primary-button-color;
   border: none;
   border-radius: 5px;
 
   &:hover {
-    background-color: #5c7186;
+    background-color: $primary-button-hover-color;
   }
 
   &:active {
-    background-color: #39495b;
+    background-color: $primary-button-active-color;
   }
 }
 

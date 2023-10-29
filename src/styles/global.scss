@@ -27,10 +27,9 @@ body {
   background-size: cover;
 }
 
-h1 {
-  margin-bottom: 0.5rem;
+h1,
+h2 {
   font-family: STARWARS, sans-serif;
-  font-size: 5rem;
   font-style: normal;
   font-weight: normal;
   color: $dark-background-color;
@@ -41,4 +40,13 @@ h1 {
     1px 0 $light-text-shadow,
     0 -1px $light-text-shadow;
   text-transform: uppercase;
+}
+
+h1 {
+  margin-bottom: 0.5rem;
+  font-size: 5rem;
+}
+
+h2 {
+  font-size: 2rem;
 }
