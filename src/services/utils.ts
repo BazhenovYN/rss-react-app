@@ -19,6 +19,9 @@ export const get = async <T>(
 ): Promise<T> => {
   const query = generateQueryString(queryParams);
   const response = await fetch(`${baseUrl}${path}${query}`, init);
+  if (!response.ok) {
+    throw Error(`${response.status} ${response.statusText}`);
+  }
   const data = (await response.json()) as T;
   return data;
 };
