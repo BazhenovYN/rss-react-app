@@ -7,13 +7,13 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "test": "vitest",
-    "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
-    "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx,json}",
+    "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "lint:fix": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "preview": "vite preview",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "style": "stylelint src/**/*.{css,scss}",
-    "style:fix": "stylelint --fix src/**/*.{css,scss}",
+    "style": "stylelint \"./src/**/*.{css,scss}\"",
+    "style:fix": "stylelint --fix \"./src/**/*.{css,scss}\"",
     "prepare": "husky install"
   },
   "lint-staged": {
