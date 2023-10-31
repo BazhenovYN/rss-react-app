@@ -1,12 +1,11 @@
+import { RouterProvider } from 'react-router-dom';
 import ErrorBoundary from '@/components/features/ErrorBoundary';
-import Home from '@/pages/Home';
+import router from '@/router';
 
 function App() {
   return (
     <ErrorBoundary>
-      <main>
-        <Home />
-      </main>
+      <RouterProvider router={router} />
     </ErrorBoundary>
   );
 }
