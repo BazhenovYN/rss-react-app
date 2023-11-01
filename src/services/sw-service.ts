@@ -1,5 +1,5 @@
 import { get } from './utils';
-import type { IDataFragment, IPeople } from '@/types';
+import type { IDataFragment, IPeople, QueryParam } from '@/types';
 
 const API_URL = 'https://swapi.dev/api';
 
@@ -12,9 +12,17 @@ const path = {
   starships: '/starships/',
 };
 
-export const getApiData = async (searchTerm: string, init?: RequestInit) => {
-  const queryParams = searchTerm
-    ? [{ key: 'search', value: searchTerm.trim() }]
-    : [];
+export const getApiData = async (
+  searchTerm: string,
+  page?: number,
+  init?: RequestInit
+) => {
+  const queryParams: QueryParam[] = [];
+  if (searchTerm) {
+    queryParams.push({ key: 'search', value: searchTerm.trim() });
+  }
+  if (page && page > 1) {
+    queryParams.push({ key: 'page', value: page.toString() });
+  }
   return get<IDataFragment<IPeople>>(API_URL, path.people, queryParams, init);
 };

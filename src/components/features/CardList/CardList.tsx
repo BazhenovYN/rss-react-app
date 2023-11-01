@@ -1,6 +1,8 @@
 import Card from './Card';
 import type { IPeople } from '@/types';
 
+import styles from './CardList.module.scss';
+
 interface Props {
   items: IPeople[];
 }
@@ -11,7 +13,7 @@ function CardList({ items }: Props) {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       {items.map((item) => {
         return <Card key={item.url} content={item} />;
       })}
