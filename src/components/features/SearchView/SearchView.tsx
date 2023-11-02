@@ -46,7 +46,7 @@ function SearchView() {
         const data = await getApiData(searchTerm, page, limit);
         setData(data);
       } catch (error) {
-        console.error(error);
+        console.log('Unsuccessful fetch');
       } finally {
         setIsLoading(false);
       }
@@ -100,23 +100,23 @@ function SearchView() {
           Search
         </Button>
       </div>
-      {isLoading ? (
+      {isLoading && (
         <div className={styles['loader-container']}>
           <Loader />
         </div>
-      ) : (
-        data && (
-          <>
-            <CardList items={data.results} />
-            <Pagination count={getTotalPageCount(data)} currentPage={page} />
-            <ItemPerPageSelector
-              sizes={ELEMENTS_PER_PAGE}
-              onChange={handleChangeItemsPerPage}
-              selectedValue={itemsPerPage}
-            />
-          </>
-        )
       )}
+      {!isLoading && data && data.results.length > 0 && (
+        <>
+          <CardList items={data.results} />
+          <Pagination count={getTotalPageCount(data)} currentPage={page} />
+          <ItemPerPageSelector
+            sizes={ELEMENTS_PER_PAGE}
+            onChange={handleChangeItemsPerPage}
+            selectedValue={itemsPerPage}
+          />
+        </>
+      )}
+      {!isLoading && data?.results.length === 0 && <h2>Nothing found</h2>}
     </div>
   );
 }

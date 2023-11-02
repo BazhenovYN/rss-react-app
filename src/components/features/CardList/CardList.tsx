@@ -8,10 +8,6 @@ interface Props {
 }
 
 function CardList({ items }: Props) {
-  if (!items.length) {
-    return <h2>Nothing found</h2>;
-  }
-
   return (
     <div className={styles.container}>
       {items.map((item) => {
