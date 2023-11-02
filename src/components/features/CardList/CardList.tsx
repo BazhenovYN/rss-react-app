@@ -15,7 +15,7 @@ function CardList({ items }: Props) {
   return (
     <div className={styles.container}>
       {items.map((item) => {
-        return <Card key={item.url} content={item} />;
+        return <Card key={item.id} content={item} />;
       })}
     </div>
   );

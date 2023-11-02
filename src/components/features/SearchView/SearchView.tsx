@@ -7,7 +7,7 @@ import TextField from '@/components/common/TextField';
 import CardList from '@/components/features/CardList';
 import Loader from '@/components/features/Loader';
 import { getApiData } from '@/services/sw-service';
-import type { IDataFragment, IPeople } from '@/types';
+import type { IDataFragment } from '@/types';
 import { getFromLocalStorage, saveToLocalStorage } from '@/utils/storageUtils';
 
 import styles from './SearchView.module.scss';
@@ -19,17 +19,17 @@ const ELEMENTS_PER_PAGE = 10;
 
 function SearchView() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageParam = searchParams.get('page');
+  const pageParam = searchParams.get('_page');
   const page = pageParam ? parseInt(pageParam, 10) : FIRST_PAGE;
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<IDataFragment<IPeople> | null>(null);
+  const [data, setData] = useState<IDataFragment | null>(null);
 
   const getData = useCallback(async (searchTerm: string, page?: number) => {
     setIsLoading(true);
     try {
-      const data = await getApiData(searchTerm, page);
+      const data = await getApiData(searchTerm, page, ELEMENTS_PER_PAGE);
       setData(data);
     } catch (error) {
       console.error(error);
@@ -38,15 +38,15 @@ function SearchView() {
     }
   }, []);
 
-  const getTotalPageCount = (data: IDataFragment<IPeople>) => {
-    return Math.ceil(data.count / ELEMENTS_PER_PAGE);
+  const getTotalPageCount = (data: IDataFragment) => {
+    return Math.ceil(data.totalCount / ELEMENTS_PER_PAGE);
   };
 
   const handleSearch = () => {
     getData(searchTerm);
     saveToLocalStorage(SEARCH_TERM_KEY, searchTerm.trim());
     const newSearchParams = [...searchParams.entries()].filter(
-      ([key]) => key !== 'page'
+      ([key]) => key !== '_page'
     );
     setSearchParams(newSearchParams);
   };

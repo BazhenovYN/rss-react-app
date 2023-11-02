@@ -39,7 +39,7 @@ function Card({ content }: Props) {
             <span>{hairColor}</span>
           </div>
         </div>
-        <div className={styles.details}>
+        <div className={styles['btn-container']}>
           <Button endIcon={<FaChevronRight />}>Details</Button>
         </div>
       </div>

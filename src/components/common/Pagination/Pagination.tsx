@@ -9,22 +9,18 @@ interface Props {
 }
 
 function Pagination({ count, currentPage }: Props) {
-  if (count < 2) {
-    return null;
-  }
-
   const getPageLink = (page: number) => {
-    return page === 1 ? '/' : `/?page=${page}`;
+    return page === 1 ? '/' : `/?_page=${page}`;
   };
 
   const getPrevPageLink = () => {
-    return currentPage > 2 ? `/?page=${currentPage - 1}` : '/';
+    return currentPage > 2 ? `/?_page=${currentPage - 1}` : '/';
   };
 
   const getNextPageLink = () => {
     return currentPage < count
-      ? `/?page=${currentPage + 1}`
-      : `/?page=${count}`;
+      ? `/?_page=${currentPage + 1}`
+      : `/?_page=${count}`;
   };
 
   const items = [];
@@ -41,14 +37,24 @@ function Pagination({ count, currentPage }: Props) {
   }
 
   return (
-    <div className={styles.pagination}>
-      <Link to={getPrevPageLink()} className={styles.item}>
-        <FaChevronLeft />
-      </Link>
-      {items}
-      <Link to={getNextPageLink()} className={styles.item}>
-        <FaChevronRight />
-      </Link>
+    <div className={styles.container}>
+      <div className={styles.pagination}>
+        <Link to={getPrevPageLink()} className={styles.item}>
+          <FaChevronLeft />
+        </Link>
+        {items}
+        <Link to={getNextPageLink()} className={styles.item}>
+          <FaChevronRight />
+        </Link>
+      </div>
+      <div className={styles.select}>
+        <div>Items per page:</div>
+        <select name="per-page">
+          <option>5</option>
+          <option>10</option>
+          <option>20</option>
+        </select>
+      </div>
     </div>
   );
 }
