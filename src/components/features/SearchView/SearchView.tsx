@@ -112,7 +112,7 @@ function SearchView() {
             <ItemPerPageSelector
               sizes={ELEMENTS_PER_PAGE}
               onChange={handleChangeItemsPerPage}
-              currentValue={itemsPerPage}
+              selectedValue={itemsPerPage}
             />
           </>
         )
