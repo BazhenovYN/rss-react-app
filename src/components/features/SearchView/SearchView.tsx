@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import Button from '@/components/common/Button';
+import ItemPerPageSelector from '@/components/common/ItemPerPageSelector';
 import Pagination from '@/components/common/Pagination';
 import TextField from '@/components/common/TextField';
 import CardList from '@/components/features/CardList';
@@ -15,47 +16,70 @@ import styles from './SearchView.module.scss';
 const SEARCH_TERM_KEY = 'searchTerm';
 const SEARCH_PLACEHOLDER = 'You looking for, who are?';
 const FIRST_PAGE = 1;
-const ELEMENTS_PER_PAGE = 10;
+const ELEMENTS_PER_PAGE = {
+  sm: 10,
+  md: 20,
+  lg: 30,
+};
 
 function SearchView() {
+  const initialTerm = getFromLocalStorage<string>(SEARCH_TERM_KEY) || '';
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  if (inputRef.current) {
+    inputRef.current.value = initialTerm;
+  }
+
   const [searchParams, setSearchParams] = useSearchParams();
   const pageParam = searchParams.get('_page');
   const page = pageParam ? parseInt(pageParam, 10) : FIRST_PAGE;
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(initialTerm);
+  const [itemsPerPage, setItemPerPage] = useState(ELEMENTS_PER_PAGE.sm);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<IDataFragment | null>(null);
 
-  const getData = useCallback(async (searchTerm: string, page?: number) => {
-    setIsLoading(true);
-    try {
-      const data = await getApiData(searchTerm, page, ELEMENTS_PER_PAGE);
-      setData(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const getData = useCallback(
+    async (searchTerm: string, page?: number, limit?: number) => {
+      setIsLoading(true);
+      try {
+        const data = await getApiData(searchTerm, page, limit);
+        setData(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   const getTotalPageCount = (data: IDataFragment) => {
-    return Math.ceil(data.totalCount / ELEMENTS_PER_PAGE);
+    return Math.ceil(data.totalCount / itemsPerPage);
   };
 
-  const handleSearch = () => {
-    getData(searchTerm);
-    saveToLocalStorage(SEARCH_TERM_KEY, searchTerm.trim());
+  const resetPage = () => {
     const newSearchParams = [...searchParams.entries()].filter(
       ([key]) => key !== '_page'
     );
     setSearchParams(newSearchParams);
   };
 
+  const handleSearch = () => {
+    const newSearchTerm = inputRef.current?.value ?? '';
+    setSearchTerm(newSearchTerm);
+    saveToLocalStorage(SEARCH_TERM_KEY, newSearchTerm.trim());
+    resetPage();
+  };
+
+  const handleChangeItemsPerPage = (newValue: number) => {
+    resetPage();
+    setItemPerPage(newValue);
+  };
+
   useEffect(() => {
-    const initialTerm = getFromLocalStorage<string>(SEARCH_TERM_KEY) || '';
-    setSearchTerm(initialTerm);
-    getData(initialTerm, page);
-  }, [getData, page]);
+    getData(searchTerm, page, itemsPerPage);
+  }, [getData, searchTerm, page, itemsPerPage]);
 
   return (
     <div className={styles.container}>
@@ -65,8 +89,7 @@ function SearchView() {
           className={styles.input}
           placeholder={SEARCH_PLACEHOLDER}
           autoComplete="off"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
+          ref={inputRef}
         />
         <Button
           onClick={handleSearch}
@@ -86,6 +109,11 @@ function SearchView() {
           <>
             <CardList items={data.results} />
             <Pagination count={getTotalPageCount(data)} currentPage={page} />
+            <ItemPerPageSelector
+              sizes={ELEMENTS_PER_PAGE}
+              onChange={handleChangeItemsPerPage}
+              currentValue={itemsPerPage}
+            />
           </>
         )
       )}

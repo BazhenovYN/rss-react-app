@@ -18,9 +18,12 @@ function Pagination({ count, currentPage }: Props) {
   };
 
   const getNextPageLink = () => {
-    return currentPage < count
-      ? `/?_page=${currentPage + 1}`
-      : `/?_page=${count}`;
+    if (count === 1) {
+      return '/';
+    } else if (currentPage < count) {
+      return `/?_page=${currentPage + 1}`;
+    }
+    return `/?_page=${count}`;
   };
 
   const items = [];
@@ -46,14 +49,6 @@ function Pagination({ count, currentPage }: Props) {
         <Link to={getNextPageLink()} className={styles.item}>
           <FaChevronRight />
         </Link>
-      </div>
-      <div className={styles.select}>
-        <div>Items per page:</div>
-        <select name="per-page">
-          <option>5</option>
-          <option>10</option>
-          <option>20</option>
-        </select>
       </div>
     </div>
   );

@@ -1,10 +1,13 @@
+import { forwardRef, InputHTMLAttributes } from 'react';
 import styles from './TextField.module.scss';
 
-type Props = React.InputHTMLAttributes<HTMLInputElement>;
+type Props = InputHTMLAttributes<HTMLInputElement>;
 
-function TextField({ className, ...rest }: Props) {
-  const classes = `${styles.input} ${className ? className : ''}`.trimEnd();
-  return <input className={classes} {...rest} />;
-}
+const TextField = forwardRef<HTMLInputElement, Props>(
+  ({ className, ...rest }, ref) => {
+    const classes = `${styles.input} ${className ? className : ''}`.trimEnd();
+    return <input ref={ref} className={classes} {...rest} />;
+  }
+);
 
 export default TextField;
