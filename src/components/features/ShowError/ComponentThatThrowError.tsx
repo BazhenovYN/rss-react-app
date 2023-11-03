@@ -1,15 +1,9 @@
-import { Component } from 'react';
-import { EmptyObject } from '@/types';
-
-class ComponentThatThrowError extends Component<EmptyObject> {
-  constructor(props: EmptyObject) {
-    super(props);
+function ComponentThatThrowError() {
+  const getError = () => {
     throw new Error('Oops! Our Death Star just exploded...');
-  }
+  };
 
-  render() {
-    return <div>BOOM!</div>;
-  }
+  return <div>{getError()}</div>;
 }
 
 export default ComponentThatThrowError;

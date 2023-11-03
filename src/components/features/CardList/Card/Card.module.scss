@@ -2,6 +2,7 @@
 
 .card {
   position: relative;
+  width: 100%;
   max-width: 350px;
   padding: 15px;
   margin-top: 30px;
@@ -36,7 +37,12 @@
   font-style: italic;
 }
 
-.details {
+.btn-container {
   display: flex;
   align-items: end;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
 }

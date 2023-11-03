@@ -16,9 +16,13 @@ export const get = async <T>(
   path: string,
   queryParams: QueryParam[] = [],
   init?: RequestInit
-): Promise<T> => {
+): Promise<{ data: T; totalCount: number }> => {
   const query = generateQueryString(queryParams);
   const response = await fetch(`${baseUrl}${path}${query}`, init);
+  if (!response.ok) {
+    throw Error(`${response.status} ${response.statusText}`);
+  }
   const data = (await response.json()) as T;
-  return data;
+  const totalCount = response.headers.get('X-Total-Count');
+  return { data, totalCount: totalCount ? Number(totalCount) : 0 };
 };

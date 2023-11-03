@@ -50,3 +50,13 @@ h1 {
 h2 {
   font-size: 2rem;
 }
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
