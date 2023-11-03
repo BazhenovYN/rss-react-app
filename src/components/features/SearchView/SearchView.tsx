@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import Button from '@/components/common/Button';
@@ -39,22 +39,10 @@ function SearchView() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<IDataFragment | null>(null);
 
-  const getData = useCallback(
-    async (searchTerm: string, page?: number, limit?: number) => {
-      setIsLoading(true);
-      try {
-        const data = await getApiData(searchTerm, page, limit);
-        setData(data);
-      } catch (error) {
-        console.log('Unsuccessful fetch');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
-
-  const getTotalPageCount = (data: IDataFragment) => {
+  const getTotalPageCount = () => {
+    if (!data) {
+      return 0;
+    }
     return Math.ceil(data.totalCount / itemsPerPage);
   };
 
@@ -78,8 +66,20 @@ function SearchView() {
   };
 
   useEffect(() => {
-    getData(searchTerm, page, itemsPerPage);
-  }, [getData, searchTerm, page, itemsPerPage]);
+    const getData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getApiData(searchTerm, page, itemsPerPage);
+        setData(data);
+      } catch (error) {
+        console.log('Unsuccessful fetch');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getData();
+  }, [searchTerm, page, itemsPerPage]);
 
   return (
     <div className={styles.container}>
@@ -108,7 +108,7 @@ function SearchView() {
       {!isLoading && data && data.results.length > 0 && (
         <>
           <CardList items={data.results} />
-          <Pagination count={getTotalPageCount(data)} currentPage={page} />
+          <Pagination count={getTotalPageCount()} currentPage={page} />
           <ItemPerPageSelector
             sizes={ELEMENTS_PER_PAGE}
             onChange={handleChangeItemsPerPage}
