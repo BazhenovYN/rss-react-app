@@ -69,8 +69,8 @@ function SearchView() {
     const getData = async () => {
       setIsLoading(true);
       try {
-        const data = await getApiData(searchTerm, page, itemsPerPage);
-        setData(data);
+        const apiData = await getApiData(searchTerm, page, itemsPerPage);
+        setData(apiData);
       } catch (error) {
         console.log('Unsuccessful fetch');
       } finally {
