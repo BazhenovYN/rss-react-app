@@ -1,5 +1,10 @@
 @import '@/styles/variables';
 
+.container {
+  position: relative;
+  display: flex;
+}
+
 .card {
   position: relative;
   width: 100%;
@@ -12,6 +17,7 @@
   box-shadow: 1px 0 9px 5px $primary-box-shadow;
   transition: all 0.3s;
 
+  &.active,
   &:hover {
     box-shadow: 1px 0 9px 5px $secondary-box-shadow;
     transform: scale(1.05);
@@ -45,4 +51,21 @@
 .detail {
   display: flex;
   flex-direction: column;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+  color: $light-text-color;
+  border-radius: 50%;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: rgba($default-border-color, 0.3);
+  }
+
+  &.active {
+    transform: rotateZ(-180deg);
+  }
 }

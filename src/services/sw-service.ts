@@ -2,7 +2,7 @@ import { get } from './utils';
 import type { IDataFragment, IPeople, QueryParam } from '@/types';
 
 const API_URL = 'https://sw-json.vercel.app';
-const PATH = '/people/';
+const PATH = '/people';
 
 export const getApiData = async (
   searchTerm: string,
@@ -27,4 +27,9 @@ export const getApiData = async (
     init
   );
   return { totalCount, results: data };
+};
+
+export const getApiDataById = async (id: string) => {
+  const { data } = await get<IPeople>(API_URL, `${PATH}/${id}`);
+  return data;
 };
