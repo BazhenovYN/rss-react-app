@@ -1,0 +1,52 @@
+@import '@/styles/variables';
+
+.card {
+  position: absolute;
+  top: 0;
+  left: 110%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: max-content;
+  padding: 15px;
+  background: $dark-background-color;
+  border: 4px double $default-border-color;
+  border-radius: 15px;
+  box-shadow: 1px 0 9px 5px $secondary-box-shadow;
+  opacity: 0;
+  transition: all 0.3s;
+  animation: slide 0.5s forwards;
+}
+
+@keyframes slide {
+  100% {
+    opacity: 1;
+  }
+}
+
+.item span:nth-child(2) {
+  font-style: italic;
+}
+
+.films {
+  padding-left: 1rem;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+}
+
+.icon {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  padding: 4px;
+  color: $light-text-color;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: rgba($default-border-color, 0.3);
+  }
+}

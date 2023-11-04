@@ -1,0 +1,13 @@
+@import '@/styles/variables';
+
+.input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid $default-border-color;
+  border-radius: 5px;
+
+  &:focus {
+    border-color: $primary-box-shadow;
+    outline: none;
+  }
+}
