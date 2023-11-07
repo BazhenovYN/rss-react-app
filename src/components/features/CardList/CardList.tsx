@@ -1,16 +1,17 @@
 import Card from './Card';
-import type { IPeople } from '@/types';
+import { useSearchContext } from '@/context/SearchContext';
 
 import styles from './CardList.module.scss';
 
-interface Props {
-  items: IPeople[];
-}
+function CardList() {
+  const { data } = useSearchContext();
+  if (!data) {
+    return null;
+  }
 
-function CardList({ items }: Props) {
   return (
     <div className={styles.container}>
-      {items.map((item) => {
+      {data.results.map((item) => {
         return <Card key={item.id} content={item} />;
       })}
     </div>
