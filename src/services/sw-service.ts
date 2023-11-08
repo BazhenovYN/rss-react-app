@@ -1,8 +1,6 @@
+import { API_URL, PATH } from '@/app/const';
 import { get } from './utils';
 import type { IDataFragment, IPeople, QueryParam } from '@/types';
-
-const API_URL = 'https://sw-json.vercel.app';
-const PATH = '/people';
 
 export const getApiData = async (
   searchTerm: string,
