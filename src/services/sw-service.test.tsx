@@ -31,6 +31,11 @@ describe('sw-service', () => {
   test('getApiDataById returns correct data', async () => {
     const id = 5;
     const data = await getApiDataById(id.toString());
-    expect(data.id).toEqual(id);
+    expect(data?.id).toEqual(id);
+  });
+
+  test('getApiDataById returns null', async () => {
+    const data = await getApiDataById();
+    expect(data).toBeNull();
   });
 });
