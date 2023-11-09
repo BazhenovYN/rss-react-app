@@ -5,7 +5,7 @@ type Props = InputHTMLAttributes<HTMLInputElement>;
 
 const TextField = forwardRef<HTMLInputElement, Props>(
   ({ className, ...rest }, ref) => {
-    const classes = `${styles.input} ${className ? className : ''}`.trimEnd();
+    const classes = [styles.input, className].join(' ').trimEnd();
     return <input ref={ref} className={classes} {...rest} />;
   }
 );
