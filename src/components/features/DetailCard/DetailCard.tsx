@@ -15,9 +15,6 @@ function DetailCard() {
 
   useEffect(() => {
     const getData = async () => {
-      if (!id) {
-        return;
-      }
       setIsLoading(true);
       try {
         const apiData = await getApiDataById(id);
