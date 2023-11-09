@@ -6,6 +6,7 @@
   "plugins": ["stylelint-order"],
   "rules": {
     "color-hex-length": "long",
-    "import-notation": "string"
+    "import-notation": "string",
+    "scss/at-import-no-partial-leading-underscore": null
   }
 }
