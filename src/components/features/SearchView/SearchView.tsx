@@ -103,9 +103,9 @@ function SearchView() {
           <Loader />
         </div>
       )}
-      {!isLoading && data && data.results.length > 0 && (
+      {!isLoading && <CardList />}
+      {!isLoading && data && data?.results.length > 0 && (
         <>
-          <CardList />
           <Pagination count={getTotalPageCount()} currentPage={page} />
           <ItemPerPageSelector
             sizes={ELEMENTS_PER_PAGE}
@@ -114,7 +114,6 @@ function SearchView() {
           />
         </>
       )}
-      {!isLoading && data?.results.length === 0 && <h2>Nothing found</h2>}
     </div>
   );
 }
