@@ -33,7 +33,7 @@ function DetailCard() {
   };
 
   return (
-    <div className={styles['detail-card']}>
+    <div className={styles['detail-card']} data-testid="detail-card">
       {isLoading && (
         <div className={styles['loader-container']}>
           <Loader />

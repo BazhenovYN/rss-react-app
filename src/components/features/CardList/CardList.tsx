@@ -10,11 +10,14 @@ function CardList() {
   }
 
   return (
-    <div className={styles.container}>
-      {data.results.map((item) => {
-        return <Card key={item.id} content={item} />;
-      })}
-    </div>
+    <>
+      <div className={styles.container}>
+        {data.results.map((item) => {
+          return <Card key={item.id} content={item} />;
+        })}
+      </div>
+      {data.results.length === 0 && <h2>Nothing found</h2>}
+    </>
   );
 }
 
