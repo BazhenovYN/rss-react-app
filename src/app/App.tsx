@@ -1,5 +1,4 @@
 import { RouterProvider } from 'react-router-dom';
-import ErrorBoundary from '@/components/features/ErrorBoundary';
 import { SearchProvider } from '@/context/SearchContext';
 import router from '@/router';
 import { getFromLocalStorage } from '@/utils/storageUtils';
@@ -9,11 +8,9 @@ function App() {
   const initialTerm = getFromLocalStorage<string>(SEARCH_TERM_KEY) || '';
 
   return (
-    <ErrorBoundary>
-      <SearchProvider initialTerm={initialTerm}>
-        <RouterProvider router={router} />
-      </SearchProvider>
-    </ErrorBoundary>
+    <SearchProvider initialTerm={initialTerm}>
+      <RouterProvider router={router} />
+    </SearchProvider>
   );
 }
 
