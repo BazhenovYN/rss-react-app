@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { IPeople } from '@/types';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { apiData } from '@/mocks/data';
-import Card from './Card';
-import DetailCard from '@/components/features/DetailCard';
 import { vi } from 'vitest';
+import DetailCard from '@/components/features/DetailCard';
+import { apiData } from '@/mocks/data';
+import { IPeople } from '@/types';
+import Card from './Card';
 
 describe('Card', () => {
   const testData: IPeople = apiData[0];
