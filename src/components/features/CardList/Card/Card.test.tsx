@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { apiData } from '@/mocks/data';
 import Card from './Card';
 import DetailCard from '@/components/features/DetailCard';
+import { vi } from 'vitest';
 
 describe('Card', () => {
   const testData: IPeople = apiData[0];
@@ -23,7 +24,8 @@ describe('Card', () => {
     expect(hairColor).toBeInTheDocument();
   });
 
-  test('clicking on a card opens a detailed card component', () => {
+  test('clicking on a card opens a detailed card component with additional API call', () => {
+    const spy = vi.spyOn(global, 'fetch');
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/']}>
         <Routes>
@@ -38,6 +40,7 @@ describe('Card', () => {
 
     const detailCard = screen.getByTestId('detail-card');
     expect(detailCard).toBeInTheDocument();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   test('renders correctly when detail data is opened', () => {
