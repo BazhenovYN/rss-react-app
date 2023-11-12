@@ -21,6 +21,7 @@ export default defineConfig({
       all: true,
       include: [
         '**/src/components/**/*.{tsx,ts}',
+        '**/src/pages/**/*.{tsx,ts}',
         '**/src/services/**/*.{tsx,ts}',
         '**/src/utils/**/*.{tsx,ts}',
       ],
