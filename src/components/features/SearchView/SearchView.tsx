@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
-import { SEARCH_TERM_KEY } from '@/app/const';
+import { ELEMENTS_PER_PAGE, SEARCH_TERM_KEY } from '@/app/const';
 import Button from '@/components/common/Button';
 import ItemPerPageSelector from '@/components/common/ItemPerPageSelector';
 import Pagination from '@/components/common/Pagination';
@@ -16,11 +16,6 @@ import styles from './SearchView.module.scss';
 
 const SEARCH_PLACEHOLDER = 'You looking for, who are?';
 const FIRST_PAGE = 1;
-const ELEMENTS_PER_PAGE = {
-  sm: 10,
-  md: 20,
-  lg: 30,
-};
 
 function SearchView() {
   const { searchTerm, setSearchTerm, data, setData } = useSearchContext();
@@ -38,9 +33,7 @@ function SearchView() {
   const [isLoading, setIsLoading] = useState(false);
 
   const getTotalPageCount = () => {
-    if (!data) {
-      return 0;
-    }
+    if (!data) return 0;
     return Math.ceil(data.totalCount / itemsPerPage);
   };
 
@@ -69,8 +62,6 @@ function SearchView() {
       try {
         const apiData = await getApiData(searchTerm, page, itemsPerPage);
         setData(apiData);
-      } catch (error) {
-        console.log('Unsuccessful fetch');
       } finally {
         setIsLoading(false);
       }
@@ -80,7 +71,7 @@ function SearchView() {
   }, [searchTerm, page, itemsPerPage, setData]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="search-section">
       <div className={styles.panel}>
         <TextField
           name="search"
@@ -94,6 +85,7 @@ function SearchView() {
           startIcon={<FaSearch />}
           className={styles.btn}
           disabled={isLoading}
+          data-testid="search-button"
         >
           Search
         </Button>

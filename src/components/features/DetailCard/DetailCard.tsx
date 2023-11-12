@@ -19,8 +19,6 @@ function DetailCard() {
       try {
         const apiData = await getApiDataById(id);
         setData(apiData);
-      } catch (error) {
-        console.log('Unsuccessful fetch');
       } finally {
         setIsLoading(false);
       }
