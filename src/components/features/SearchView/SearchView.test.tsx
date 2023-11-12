@@ -11,13 +11,13 @@ describe('SearchView', () => {
 
   const searchTerm = 'Skywalker';
 
-  test('renders correctly', () => {
+  test('1. renders correctly', () => {
     const { getByTestId } = render(<SearchView />, { wrapper: MemoryRouter });
     const section = getByTestId('search-section');
     expect(section).toBeInTheDocument();
   });
 
-  test('clicking the Search button saves the entered value to the local storage', async () => {
+  test('2. clicking the Search button saves the entered value to the local storage', async () => {
     const { findByRole, findByTestId } = render(<SearchView />, {
       wrapper: MemoryRouter,
     });
@@ -33,7 +33,7 @@ describe('SearchView', () => {
     );
   });
 
-  test('retrieves the value from the local storage upon mounting', async () => {
+  test('3. retrieves the value from the local storage upon mounting', async () => {
     localStorage.setItem(SEARCH_TERM_KEY, JSON.stringify(searchTerm));
 
     const { findByRole } = render(
@@ -47,7 +47,7 @@ describe('SearchView', () => {
     expect(input.value).toBe(searchTerm);
   });
 
-  test('the number of cards on the page changes correctly', async () => {
+  test('4. the number of cards on the page changes correctly', async () => {
     const { findByRole, findAllByTestId } = render(
       <SearchProvider>
         <SearchView />
@@ -67,7 +67,7 @@ describe('SearchView', () => {
     expect(cardsAfter).toHaveLength(ELEMENTS_PER_PAGE.md);
   });
 
-  test('renders correctly without data', async () => {
+  test('5. renders correctly without data', async () => {
     const badSearchTerm = 'hldjdhfpuhjhIJDHFIJIJ';
     localStorage.setItem(SEARCH_TERM_KEY, JSON.stringify(badSearchTerm));
 

@@ -11,7 +11,7 @@ vi.mock('@/context/SearchContext', () => ({
 }));
 
 describe('CardList', () => {
-  test('renders correctly', () => {
+  test('1. renders correctly', () => {
     const testData: IDataFragment = {
       results: apiData.slice(0, 5),
       totalCount: 5,
@@ -22,7 +22,7 @@ describe('CardList', () => {
     expect(cards).toHaveLength(testData.totalCount);
   });
 
-  test('renders correctly without data', () => {
+  test('2. renders correctly without data', () => {
     const testData: IDataFragment = {
       results: [],
       totalCount: 0,
@@ -33,7 +33,7 @@ describe('CardList', () => {
     expect(message).toBeInTheDocument();
   });
 
-  test('renders correctly when data is not available', () => {
+  test('3. renders correctly when data is not available', () => {
     (useSearchContext as Mock).mockReturnValue({ data: null });
     const { container } = render(<CardList />);
     expect(container.firstChild).toBeNull();

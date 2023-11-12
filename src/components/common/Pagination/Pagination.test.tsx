@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react';
 import Pagination from './Pagination';
 
 describe('Pagination', () => {
-  test('renders correctly', () => {
+  test('1. renders correctly', () => {
     const { getByRole } = render(<Pagination count={10} currentPage={1} />, {
       wrapper: MemoryRouter,
     });
@@ -11,7 +11,7 @@ describe('Pagination', () => {
     expect(pagination).toBeInTheDocument();
   });
 
-  test('renders correctly when exist only 1 item', () => {
+  test('2. renders correctly when exist only 1 item', () => {
     const { getByRole } = render(<Pagination count={1} currentPage={1} />, {
       wrapper: MemoryRouter,
     });
@@ -19,7 +19,7 @@ describe('Pagination', () => {
     expect(pagination).toBeInTheDocument();
   });
 
-  test('renders correctly when current page exceeds the allowed value', () => {
+  test('3. renders correctly when current page exceeds the allowed value', () => {
     const { getByRole } = render(<Pagination count={10} currentPage={100} />, {
       wrapper: MemoryRouter,
     });
@@ -27,7 +27,7 @@ describe('Pagination', () => {
     expect(pagination).toBeInTheDocument();
   });
 
-  test('updates URL query parameter when page changes', () => {
+  test('4. updates URL query parameter when page changes', () => {
     const { getByText } = render(<Pagination count={10} currentPage={1} />, {
       wrapper: BrowserRouter,
     });

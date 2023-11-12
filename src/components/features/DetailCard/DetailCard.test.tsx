@@ -7,7 +7,7 @@ import Card from '../CardList/Card';
 describe('DetailCard', () => {
   const testData = apiData[0];
 
-  test('renders correctly', async () => {
+  test('1. renders correctly', async () => {
     render(
       <MemoryRouter initialEntries={[`/characters/${testData.id}`]}>
         <Routes>
@@ -34,7 +34,7 @@ describe('DetailCard', () => {
     expect(homeworld).toBeInTheDocument();
   });
 
-  test('loading indicator is displayed while fetching data', () => {
+  test('2. loading indicator is displayed while fetching data', () => {
     render(
       <MemoryRouter initialEntries={[`/characters/${testData.id}`]}>
         <Routes>
@@ -46,7 +46,7 @@ describe('DetailCard', () => {
     expect(loader).toBeInTheDocument();
   });
 
-  test('clicking the close button hides the component', () => {
+  test('3. clicking the close button hides the component', () => {
     const { getByRole, getByTestId } = render(
       <MemoryRouter initialEntries={[`/characters/${testData.id}`]}>
         <Routes>

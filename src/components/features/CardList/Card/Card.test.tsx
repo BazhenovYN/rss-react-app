@@ -9,7 +9,7 @@ import Card from './Card';
 describe('Card', () => {
   const testData: IPeople = apiData[0];
 
-  test('renders correctly', () => {
+  test('1. renders correctly', () => {
     const { getByText } = render(<Card content={testData} />, {
       wrapper: MemoryRouter,
     });
@@ -24,7 +24,7 @@ describe('Card', () => {
     expect(hairColor).toBeInTheDocument();
   });
 
-  test('clicking on a card opens a detailed card component with additional API call', () => {
+  test('2. clicking on a card opens a detailed card component with additional API call', () => {
     const spy = vi.spyOn(global, 'fetch');
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/']}>
@@ -43,7 +43,7 @@ describe('Card', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  test('renders correctly when detail data is opened', () => {
+  test('3. renders correctly when detail data is opened', () => {
     const { getByTestId } = render(
       <MemoryRouter initialEntries={[`/characters/${testData.id}`]}>
         <Routes>
