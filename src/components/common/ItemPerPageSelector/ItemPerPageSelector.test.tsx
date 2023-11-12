@@ -1,5 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
+import { ELEMENTS_PER_PAGE } from '@/app/const';
 import ItemPerPageSelector from './ItemPerPageSelector';
 
 describe('ItemPerPageSelector', () => {
@@ -30,7 +31,8 @@ describe('ItemPerPageSelector', () => {
       />
     );
     const select = getByRole('combobox');
-    fireEvent.change(select);
+    fireEvent.change(select, { target: { value: ELEMENTS_PER_PAGE.md } });
     expect(onChangeMock).toHaveBeenCalledTimes(1);
+    expect(onChangeMock).toHaveBeenCalledWith(ELEMENTS_PER_PAGE.md);
   });
 });

@@ -1,4 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
+import { SEARCH_TERM_KEY } from '@/app/const';
 import { apiData } from '@/mocks/data';
 import { IDataFragment } from '@/types';
 import { SearchProvider, useSearchContext } from './SearchContext';
@@ -17,10 +18,9 @@ describe('useSearchContext', () => {
   });
 
   test('renders with the initial value', () => {
+    localStorage.setItem(SEARCH_TERM_KEY, JSON.stringify(searchTerm));
     const { result } = renderHook(useSearchContext, {
-      wrapper: ({ children }) => (
-        <SearchProvider initialTerm={searchTerm}>{children}</SearchProvider>
-      ),
+      wrapper: SearchProvider,
     });
     expect(result.current.searchTerm).toBe(searchTerm);
   });
