@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.panel {
+  display: inline-flex;
+}
+
+.input {
+  border-radius: 5px 0 0 5px;
+}
+
+.btn {
+  border-radius: 0 5px 5px 0;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+  font-size: 2em;
+}

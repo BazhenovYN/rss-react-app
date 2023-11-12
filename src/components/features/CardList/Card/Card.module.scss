@@ -1,0 +1,71 @@
+@import '@/styles/_variables';
+
+.container {
+  position: relative;
+  display: flex;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  padding: 15px;
+  margin-top: 30px;
+  background: $dark-background-color;
+  border: 4px double $default-border-color;
+  border-radius: 15px;
+  box-shadow: 1px 0 9px 5px $primary-box-shadow;
+  transition: all 0.3s;
+
+  &.active,
+  &:hover {
+    box-shadow: 1px 0 9px 5px $secondary-box-shadow;
+    transform: scale(1.05);
+  }
+}
+
+.description {
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.characteristics {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  margin: 0 0 10px;
+}
+
+.item span:nth-child(2) {
+  font-style: italic;
+}
+
+.btn-container {
+  display: flex;
+  align-items: end;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+  color: $light-text-color;
+  border-radius: 50%;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: rgba($default-border-color, 0.3);
+  }
+
+  &.active {
+    transform: rotateZ(-180deg);
+  }
+}

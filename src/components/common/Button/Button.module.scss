@@ -1,0 +1,24 @@
+@import '@/styles/_variables';
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: $light-text-color;
+  cursor: pointer;
+  background-color: $primary-button-color;
+  border: none;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: $primary-button-hover-color;
+  }
+
+  &:active {
+    background-color: $primary-button-active-color;
+  }
+}
+
+.content {
+  display: inline-flex;
+  gap: 5px;
+}
