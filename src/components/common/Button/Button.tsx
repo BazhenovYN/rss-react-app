@@ -7,7 +7,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 function Button({ startIcon, endIcon, className, children, ...rest }: Props) {
-  const classes = `${styles.btn} ${className ? className : ''}`.trimEnd();
+  const classes = [styles.btn, className].join(' ').trimEnd();
   return (
     <button type="button" className={classes} {...rest}>
       <span className={styles.content}>

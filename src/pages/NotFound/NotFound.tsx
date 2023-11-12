@@ -7,7 +7,6 @@ function NotFound() {
   return (
     <div className={styles.container}>
       <h1>Page not found</h1>
-      <div>404</div>
       <Link to="/">
         <Button>Back Home</Button>
       </Link>

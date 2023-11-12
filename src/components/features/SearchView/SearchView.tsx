@@ -1,48 +1,39 @@
 import { useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
+import { ELEMENTS_PER_PAGE, SEARCH_TERM_KEY } from '@/app/const';
 import Button from '@/components/common/Button';
 import ItemPerPageSelector from '@/components/common/ItemPerPageSelector';
 import Pagination from '@/components/common/Pagination';
 import TextField from '@/components/common/TextField';
 import CardList from '@/components/features/CardList';
 import Loader from '@/components/features/Loader';
+import { useSearchContext } from '@/context/SearchContext';
 import { getApiData } from '@/services/sw-service';
-import type { IDataFragment } from '@/types';
-import { getFromLocalStorage, saveToLocalStorage } from '@/utils/storageUtils';
+import { saveToLocalStorage } from '@/utils/storageUtils';
 
 import styles from './SearchView.module.scss';
 
-const SEARCH_TERM_KEY = 'searchTerm';
 const SEARCH_PLACEHOLDER = 'You looking for, who are?';
 const FIRST_PAGE = 1;
-const ELEMENTS_PER_PAGE = {
-  sm: 10,
-  md: 20,
-  lg: 30,
-};
 
 function SearchView() {
-  const initialTerm = getFromLocalStorage<string>(SEARCH_TERM_KEY) || '';
+  const { searchTerm, setSearchTerm, data, setData } = useSearchContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   if (inputRef.current) {
-    inputRef.current.value = initialTerm;
+    inputRef.current.value = searchTerm;
   }
 
   const [searchParams, setSearchParams] = useSearchParams();
   const pageParam = searchParams.get('_page');
   const page = pageParam ? parseInt(pageParam, 10) : FIRST_PAGE;
 
-  const [searchTerm, setSearchTerm] = useState(initialTerm);
   const [itemsPerPage, setItemPerPage] = useState(ELEMENTS_PER_PAGE.sm);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<IDataFragment | null>(null);
 
   const getTotalPageCount = () => {
-    if (!data) {
-      return 0;
-    }
+    if (!data) return 0;
     return Math.ceil(data.totalCount / itemsPerPage);
   };
 
@@ -71,18 +62,16 @@ function SearchView() {
       try {
         const apiData = await getApiData(searchTerm, page, itemsPerPage);
         setData(apiData);
-      } catch (error) {
-        console.log('Unsuccessful fetch');
       } finally {
         setIsLoading(false);
       }
     };
 
     getData();
-  }, [searchTerm, page, itemsPerPage]);
+  }, [searchTerm, page, itemsPerPage, setData]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="search-section">
       <div className={styles.panel}>
         <TextField
           name="search"
@@ -96,6 +85,7 @@ function SearchView() {
           startIcon={<FaSearch />}
           className={styles.btn}
           disabled={isLoading}
+          data-testid="search-button"
         >
           Search
         </Button>
@@ -105,9 +95,9 @@ function SearchView() {
           <Loader />
         </div>
       )}
-      {!isLoading && data && data.results.length > 0 && (
+      {!isLoading && <CardList />}
+      {!isLoading && data && data?.results.length > 0 && (
         <>
-          <CardList items={data.results} />
           <Pagination count={getTotalPageCount()} currentPage={page} />
           <ItemPerPageSelector
             sizes={ELEMENTS_PER_PAGE}
@@ -116,7 +106,6 @@ function SearchView() {
           />
         </>
       )}
-      {!isLoading && data?.results.length === 0 && <h2>Nothing found</h2>}
     </div>
   );
 }

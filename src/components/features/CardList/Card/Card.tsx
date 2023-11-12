@@ -36,6 +36,7 @@ function Card({ content }: Props) {
         className={
           isShowDetails ? `${styles.card} ${styles.active}` : styles.card
         }
+        data-testid="card"
       >
         <h3 className={styles.name}>{name}</h3>
         <div className={styles.description}>

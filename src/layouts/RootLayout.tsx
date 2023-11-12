@@ -1,5 +1,5 @@
-import Footer from '@/components/features/Footer';
 import { Outlet } from 'react-router-dom';
+import Footer from '@/components/features/Footer';
 
 function RootLayout() {
   return (

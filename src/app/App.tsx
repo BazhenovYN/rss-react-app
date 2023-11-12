@@ -1,12 +1,12 @@
 import { RouterProvider } from 'react-router-dom';
-import ErrorBoundary from '@/components/features/ErrorBoundary';
+import { SearchProvider } from '@/context/SearchContext';
 import router from '@/router';
 
 function App() {
   return (
-    <ErrorBoundary>
+    <SearchProvider>
       <RouterProvider router={router} />
-    </ErrorBoundary>
+    </SearchProvider>
   );
 }
 
