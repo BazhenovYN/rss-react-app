@@ -1,30 +1,15 @@
-import { useEffect, useState } from 'react';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import { MdOutlineClose } from 'react-icons/md';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import Loader from '@/components/features/Loader';
-import { getApiDataById } from '@/services/sw-service';
-import { IPeople } from '@/types';
+import { useGetDataByIdQuery } from '@/services/star-wars';
 
 import styles from './DetailCard.module.scss';
 
 function DetailCard() {
   const [searchParams] = useSearchParams();
   const { id } = useParams<'id'>();
-  const [data, setData] = useState<IPeople | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-      try {
-        const apiData = await getApiDataById(id);
-        setData(apiData);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getData();
-  }, [id]);
+  const { data, isLoading } = useGetDataByIdQuery(id ?? skipToken);
 
   const generateLink = () => {
     return `/?${searchParams.toString()}`;
