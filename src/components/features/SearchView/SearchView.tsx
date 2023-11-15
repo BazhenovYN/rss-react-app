@@ -50,10 +50,10 @@ function SearchView() {
   };
 
   const resetPage = () => {
-    const newSearchParams = [...searchParams.entries()].filter(
-      ([key]) => key !== '_page'
-    );
-    setSearchParams(newSearchParams);
+    setSearchParams((searchParams) => {
+      searchParams.delete('page');
+      return searchParams;
+    });
   };
 
   const handleSearch = () => {
