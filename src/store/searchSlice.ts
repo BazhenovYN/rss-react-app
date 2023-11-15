@@ -1,16 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ELEMENTS_PER_PAGE, SEARCH_TERM_KEY } from '@/app/const';
 import { RootState } from '@/app/store';
+import { api } from '@/services/star-wars';
 import { getFromLocalStorage } from '@/utils/storageUtils';
 
 export interface ISearchState {
   searchTerm: string;
   itemPerPage: number;
+  isLoadingData: boolean;
+  isLoadingDetailedData: boolean;
 }
 
 const initialState: ISearchState = {
   searchTerm: getFromLocalStorage(SEARCH_TERM_KEY) ?? '',
   itemPerPage: ELEMENTS_PER_PAGE.sm,
+  isLoadingData: false,
+  isLoadingDetailedData: false,
 };
 
 export const searchSlice = createSlice({
@@ -23,6 +28,26 @@ export const searchSlice = createSlice({
     setItemsPerPage: (state, action: PayloadAction<number>) => {
       state.itemPerPage = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(api.endpoints.getData.matchPending, (state) => {
+      state.isLoadingData = true;
+    });
+    builder.addMatcher(api.endpoints.getData.matchFulfilled, (state) => {
+      state.isLoadingData = false;
+    });
+    builder.addMatcher(api.endpoints.getData.matchRejected, (state) => {
+      state.isLoadingData = false;
+    });
+    builder.addMatcher(api.endpoints.getDataById.matchPending, (state) => {
+      state.isLoadingDetailedData = true;
+    });
+    builder.addMatcher(api.endpoints.getDataById.matchFulfilled, (state) => {
+      state.isLoadingDetailedData = false;
+    });
+    builder.addMatcher(api.endpoints.getDataById.matchRejected, (state) => {
+      state.isLoadingDetailedData = false;
+    });
   },
 });
 
