@@ -51,7 +51,7 @@ function SearchView() {
 
   const resetPage = () => {
     setSearchParams((searchParams) => {
-      searchParams.delete('page');
+      searchParams.delete('_page');
       return searchParams;
     });
   };
