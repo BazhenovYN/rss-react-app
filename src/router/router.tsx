@@ -11,8 +11,8 @@ import DetailCard from '@/components/features/DetailCard';
 
 export const routes = (
   <Route path="/" element={<RootLayout />} errorElement={<ErrorPage />}>
-    <Route path="/" element={<Home />}>
-      <Route path="characters/:id" element={<DetailCard />} />
+    <Route path="" element={<Home />}>
+      <Route path="" element={<DetailCard />} />
     </Route>
     <Route path="*" element={<NotFound />} />
   </Route>

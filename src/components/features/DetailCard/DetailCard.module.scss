@@ -38,20 +38,6 @@
   right: 10px;
 }
 
-.icon {
-  position: absolute;
-  right: 0;
-  width: 20px;
-  height: 20px;
-  padding: 4px;
-  color: $light-text-color;
-  border-radius: 50%;
-
-  &:hover {
-    background-color: rgba($default-border-color, 0.3);
-  }
-}
-
 .loader-container {
   display: flex;
   justify-content: center;

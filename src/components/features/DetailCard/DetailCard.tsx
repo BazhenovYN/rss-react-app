@@ -1,18 +1,26 @@
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { MdOutlineClose } from 'react-icons/md';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { useAppDispatch } from '@/app/hooks';
+import IconButton from '@/components/common/IconButton';
 import Loader from '@/components/features/Loader';
 import { useGetDataByIdQuery } from '@/services/star-wars';
+import { hideDetails } from '@/store/searchSlice';
 
 import styles from './DetailCard.module.scss';
 
 function DetailCard() {
-  const [searchParams] = useSearchParams();
-  const { id } = useParams<'id'>();
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const id = searchParams.get('_details');
   const { data, isLoading } = useGetDataByIdQuery(id ?? skipToken);
 
-  const generateLink = () => {
-    return `/?${searchParams.toString()}`;
+  const handleClose = () => {
+    dispatch(hideDetails());
+    setSearchParams((searchParams) => {
+      searchParams.delete('_details');
+      return searchParams;
+    });
   };
 
   return (
@@ -64,9 +72,9 @@ function DetailCard() {
           </ul>
         </>
       )}
-      <Link to={generateLink()} className={styles.close} role="button">
-        <MdOutlineClose className={styles.icon} />
-      </Link>
+      <IconButton onClick={handleClose} className={styles.close}>
+        <MdOutlineClose />
+      </IconButton>
     </div>
   );
 }

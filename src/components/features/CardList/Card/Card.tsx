@@ -1,5 +1,12 @@
 import { FaChevronRight } from 'react-icons/fa';
-import { Link, Outlet, useParams, useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import IconButton from '@/components/common/IconButton';
+import {
+  hideDetails,
+  selectIsShowDetails,
+  showDetails,
+} from '@/store/searchSlice';
 import type { IPeople } from '@/types';
 
 import styles from './Card.module.scss';
@@ -10,7 +17,7 @@ interface Props {
 
 function Card({ content }: Props) {
   const {
-    id: characterId,
+    id,
     name,
     gender,
     height,
@@ -18,23 +25,34 @@ function Card({ content }: Props) {
     hair_color: hairColor,
   } = content;
 
-  const [searchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const detailId = searchParams.get('_details');
+  const isShowDetails = useAppSelector(selectIsShowDetails);
 
-  const { id } = useParams<'id'>();
-  const isShowDetails = characterId.toString() === id;
+  const isShowDetailsOfCard = isShowDetails && detailId === id.toString();
 
-  const generateLink = () => {
-    if (isShowDetails) {
-      return `/?${searchParams.toString()}`;
+  const handleDetails = () => {
+    if (isShowDetailsOfCard) {
+      dispatch(hideDetails());
+      setSearchParams((searchParams) => {
+        searchParams.delete('_details');
+        return searchParams;
+      });
+    } else {
+      dispatch(showDetails());
+      setSearchParams((searchParams) => {
+        searchParams.set('_details', id.toString());
+        return searchParams;
+      });
     }
-    return `/characters/${characterId}/?${searchParams.toString()}`;
   };
 
   return (
     <>
       <div
         className={
-          isShowDetails ? `${styles.card} ${styles.active}` : styles.card
+          isShowDetailsOfCard ? `${styles.card} ${styles.active}` : styles.card
         }
         data-testid="card"
       >
@@ -59,18 +77,15 @@ function Card({ content }: Props) {
             </div>
           </div>
           <div className={styles['btn-container']}>
-            <Link to={generateLink()}>
-              <FaChevronRight
-                className={
-                  isShowDetails
-                    ? `${styles.icon} ${styles.active}`
-                    : styles.icon
-                }
-              />
-            </Link>
+            <IconButton
+              onClick={handleDetails}
+              className={isShowDetailsOfCard ? styles.active : ''}
+            >
+              <FaChevronRight />
+            </IconButton>
           </div>
         </div>
-        {isShowDetails && <Outlet />}
+        {isShowDetailsOfCard && <Outlet />}
       </div>
     </>
   );
