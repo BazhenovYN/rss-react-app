@@ -68,7 +68,11 @@ function DetailCard() {
           </ul>
         </>
       )}
-      <IconButton onClick={handleClose} className={styles.close}>
+      <IconButton
+        onClick={handleClose}
+        className={styles.close}
+        data-testid="close-button"
+      >
         <MdOutlineClose />
       </IconButton>
     </div>

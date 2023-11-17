@@ -24,7 +24,8 @@ export const api = createApi({
         if (limit && limit > 0) {
           params.set('_limit', limit.toString());
         }
-        return `${PATH}${params.size && `?${params.toString()}`}`;
+        const queryParams = params.toString();
+        return `${PATH}${queryParams ? `?${queryParams}` : ''}`;
       },
       transformResponse(response: IPeople[], meta) {
         const totalCount = meta?.response

@@ -12,7 +12,7 @@ export interface ISearchState {
 }
 
 const initialState: ISearchState = {
-  searchTerm: getFromLocalStorage(SEARCH_TERM_KEY) ?? '',
+  searchTerm: getFromLocalStorage<string>(SEARCH_TERM_KEY) ?? '',
   itemPerPage: ELEMENTS_PER_PAGE.sm,
   isLoadingData: false,
   isLoadingDetailedData: false,

@@ -1,10 +1,3 @@
-export type QueryParam = {
-  key: string;
-  value: string | number;
-};
-
-export type EmptyObject = Record<string, never>;
-
 export interface IPeople {
   id: number;
   name: string;
