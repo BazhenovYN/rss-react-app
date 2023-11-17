@@ -68,18 +68,4 @@ describe('SearchView', () => {
       expect(cardsAfter).toHaveLength(ELEMENTS_PER_PAGE.md);
     });
   });
-
-  // test('5. renders correctly without data', async () => {
-  //   const badSearchTerm = 'some-bad-search-term';
-  //   localStorage.setItem(SEARCH_TERM_KEY, JSON.stringify(badSearchTerm));
-  //   const { findByText } = renderWithProviders(
-  //     <MemoryRouter>
-  //       <SearchView />
-  //     </MemoryRouter>
-  //   );
-
-  //   const text = await findByText(/nothing found/i);
-  //   screen.debug();
-  //   expect(text).toBeInTheDocument();
-  // });
 });
