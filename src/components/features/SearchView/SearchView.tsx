@@ -1,15 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import { ELEMENTS_PER_PAGE, SEARCH_TERM_KEY } from '@/app/const';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import Button from '@/components/common/Button';
 import ItemPerPageSelector from '@/components/common/ItemPerPageSelector';
 import Pagination from '@/components/common/Pagination';
 import TextField from '@/components/common/TextField';
 import CardList from '@/components/features/CardList';
 import Loader from '@/components/features/Loader';
-import { useSearchContext } from '@/context/SearchContext';
-import { getApiData } from '@/services/sw-service';
+import { useGetDataQuery } from '@/services/star-wars';
+import {
+  selectItemPerPage,
+  selectSearchTerm,
+  setItemsPerPage,
+  setSearchTerm,
+} from '@/store/searchSlice';
 import { saveToLocalStorage } from '@/utils/storageUtils';
 
 import styles from './SearchView.module.scss';
@@ -18,7 +24,10 @@ const SEARCH_PLACEHOLDER = 'You looking for, who are?';
 const FIRST_PAGE = 1;
 
 function SearchView() {
-  const { searchTerm, setSearchTerm, data, setData } = useSearchContext();
+  const dispatch = useAppDispatch();
+
+  const searchTerm = useAppSelector(selectSearchTerm);
+  const itemsPerPage = useAppSelector(selectItemPerPage);
 
   const inputRef = useRef<HTMLInputElement>(null);
   if (inputRef.current) {
@@ -29,8 +38,11 @@ function SearchView() {
   const pageParam = searchParams.get('_page');
   const page = pageParam ? parseInt(pageParam, 10) : FIRST_PAGE;
 
-  const [itemsPerPage, setItemPerPage] = useState(ELEMENTS_PER_PAGE.sm);
-  const [isLoading, setIsLoading] = useState(false);
+  const { data, isLoading } = useGetDataQuery({
+    name: searchTerm,
+    page,
+    limit: itemsPerPage,
+  });
 
   const getTotalPageCount = () => {
     if (!data) return 0;
@@ -38,37 +50,23 @@ function SearchView() {
   };
 
   const resetPage = () => {
-    const newSearchParams = [...searchParams.entries()].filter(
-      ([key]) => key !== '_page'
-    );
-    setSearchParams(newSearchParams);
+    setSearchParams((searchParams) => {
+      searchParams.delete('_page');
+      return searchParams;
+    });
   };
 
   const handleSearch = () => {
     const newSearchTerm = inputRef.current?.value ?? '';
-    setSearchTerm(newSearchTerm);
+    dispatch(setSearchTerm(newSearchTerm));
     saveToLocalStorage(SEARCH_TERM_KEY, newSearchTerm.trim());
     resetPage();
   };
 
   const handleChangeItemsPerPage = (newValue: number) => {
     resetPage();
-    setItemPerPage(newValue);
+    dispatch(setItemsPerPage(newValue));
   };
-
-  useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-      try {
-        const apiData = await getApiData(searchTerm, page, itemsPerPage);
-        setData(apiData);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getData();
-  }, [searchTerm, page, itemsPerPage, setData]);
 
   return (
     <div className={styles.container} data-testid="search-section">
@@ -95,7 +93,7 @@ function SearchView() {
           <Loader />
         </div>
       )}
-      {!isLoading && <CardList />}
+      {!isLoading && data && <CardList items={data.results} />}
       {!isLoading && data && data?.results.length > 0 && (
         <>
           <Pagination count={getTotalPageCount()} currentPage={page} />

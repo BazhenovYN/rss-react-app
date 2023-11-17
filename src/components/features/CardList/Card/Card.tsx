@@ -1,5 +1,6 @@
 import { FaChevronRight } from 'react-icons/fa';
-import { Link, Outlet, useParams, useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
+import IconButton from '@/components/common/IconButton';
 import type { IPeople } from '@/types';
 
 import styles from './Card.module.scss';
@@ -10,7 +11,7 @@ interface Props {
 
 function Card({ content }: Props) {
   const {
-    id: characterId,
+    id,
     name,
     gender,
     height,
@@ -18,16 +19,23 @@ function Card({ content }: Props) {
     hair_color: hairColor,
   } = content;
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const detailId = searchParams.get('_details');
 
-  const { id } = useParams<'id'>();
-  const isShowDetails = characterId.toString() === id;
+  const isShowDetails = detailId === id.toString();
 
-  const generateLink = () => {
+  const handleDetails = () => {
     if (isShowDetails) {
-      return `/?${searchParams.toString()}`;
+      setSearchParams((searchParams) => {
+        searchParams.delete('_details');
+        return searchParams;
+      });
+    } else {
+      setSearchParams((searchParams) => {
+        searchParams.set('_details', id.toString());
+        return searchParams;
+      });
     }
-    return `/characters/${characterId}/?${searchParams.toString()}`;
   };
 
   return (
@@ -59,15 +67,12 @@ function Card({ content }: Props) {
             </div>
           </div>
           <div className={styles['btn-container']}>
-            <Link to={generateLink()}>
-              <FaChevronRight
-                className={
-                  isShowDetails
-                    ? `${styles.icon} ${styles.active}`
-                    : styles.icon
-                }
-              />
-            </Link>
+            <IconButton
+              onClick={handleDetails}
+              className={isShowDetails ? styles.active : ''}
+            >
+              <FaChevronRight />
+            </IconButton>
           </div>
         </div>
         {isShowDetails && <Outlet />}

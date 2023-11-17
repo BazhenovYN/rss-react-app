@@ -1,33 +1,22 @@
-import { useEffect, useState } from 'react';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import { MdOutlineClose } from 'react-icons/md';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import IconButton from '@/components/common/IconButton';
 import Loader from '@/components/features/Loader';
-import { getApiDataById } from '@/services/sw-service';
-import { IPeople } from '@/types';
+import { useGetDataByIdQuery } from '@/services/star-wars';
 
 import styles from './DetailCard.module.scss';
 
 function DetailCard() {
-  const [searchParams] = useSearchParams();
-  const { id } = useParams<'id'>();
-  const [data, setData] = useState<IPeople | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const id = searchParams.get('_details');
+  const { data, isLoading } = useGetDataByIdQuery(id ?? skipToken);
 
-  useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-      try {
-        const apiData = await getApiDataById(id);
-        setData(apiData);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getData();
-  }, [id]);
-
-  const generateLink = () => {
-    return `/?${searchParams.toString()}`;
+  const handleClose = () => {
+    setSearchParams((searchParams) => {
+      searchParams.delete('_details');
+      return searchParams;
+    });
   };
 
   return (
@@ -79,9 +68,13 @@ function DetailCard() {
           </ul>
         </>
       )}
-      <Link to={generateLink()} className={styles.close} role="button">
-        <MdOutlineClose className={styles.icon} />
-      </Link>
+      <IconButton
+        onClick={handleClose}
+        className={styles.close}
+        data-testid="close-button"
+      >
+        <MdOutlineClose />
+      </IconButton>
     </div>
   );
 }
