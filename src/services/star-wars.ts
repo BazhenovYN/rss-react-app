@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API_URL, PATH } from '@/app/const';
+import { API_URL, PATH } from '@/constants';
 import type { IDataFragment, IPeople } from '@/types';
 
 export const api = createApi({

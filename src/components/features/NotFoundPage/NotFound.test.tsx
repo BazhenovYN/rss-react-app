@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter, Routes } from 'react-router-dom';
 import { routes } from '@/router';
-import NotFound from './NotFound';
+import NotFoundPage from './NotFoundPage';
 
-describe('NotFound', () => {
+describe('NotFoundPage', () => {
   test('1. renders correctly', () => {
-    const { getByText } = render(<NotFound />, { wrapper: MemoryRouter });
+    const { getByText } = render(<NotFoundPage />, { wrapper: MemoryRouter });
     const message = getByText(/not found/i);
     expect(message).toBeInTheDocument();
   });

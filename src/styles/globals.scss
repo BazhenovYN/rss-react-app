@@ -1,14 +1,14 @@
 @import 'normalize.css';
-@import '_variables';
+@import 'variables';
 
 @font-face {
   font-family: STARWARS;
   font-style: normal;
   font-weight: normal;
   src:
-    url('@/assets/fonts/STARWARS.woff2') format('woff2'),
-    url('@/assets/fonts/STARWARS.woff') format('woff'),
-    url('@/assets/fonts/STARWARS.ttf') format('truetype');
+    url('~@/assets/fonts/STARWARS.woff2') format('woff2'),
+    url('~@/assets/fonts/STARWARS.woff') format('woff'),
+    url('~@/assets/fonts/STARWARS.ttf') format('truetype');
   font-display: swap;
 }
 
@@ -21,7 +21,7 @@ body {
   font-family: Roboto, Helvetica, Arial, sans-serif;
   color: $light-text-color;
   background-color: $dark-background-color;
-  background-image: url('@/assets/images/stars.jpg');
+  background-image: url('~@/assets/images/stars.jpg');
   background-repeat: repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -51,7 +51,7 @@ h2 {
   font-size: 2rem;
 }
 
-#root {
+#__next {
   display: flex;
   flex-direction: column;
   height: 100vh;

@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { API_URL, PATH } from '@/app/const';
+import { API_URL, PATH } from '@/constants';
 import { apiData } from './data';
 import { filterData } from './utils';
 

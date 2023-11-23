@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { renderHook, waitFor } from '@testing-library/react';
 import { apiData } from '@/mocks/data';
-import { setupStore } from '@/app/store';
+import { setupStore } from '@/store/store';
 import { useGetDataByIdQuery, useGetDataQuery } from './star-wars';
 
 function Wrapper(props: { children: ReactNode }) {

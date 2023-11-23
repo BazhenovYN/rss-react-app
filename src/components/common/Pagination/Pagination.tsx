@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import Link from 'next/link';
 
 import styles from './Pagination.module.scss';
 
@@ -33,7 +33,7 @@ function Pagination({ count, currentPage }: Props) {
       i === currentPage ? `${styles.item} ${styles.active}` : styles.item;
 
     items.push(
-      <Link to={getPageLink(i)} key={i} className={className}>
+      <Link href={getPageLink(i)} key={i} className={className}>
         {i}
       </Link>
     );
@@ -42,11 +42,11 @@ function Pagination({ count, currentPage }: Props) {
   return (
     <div className={styles.container}>
       <nav aria-label="pagination" className={styles.pagination}>
-        <Link to={getPrevPageLink()} className={styles.item}>
+        <Link href={getPrevPageLink()} className={styles.item}>
           <FaChevronLeft />
         </Link>
         {items}
-        <Link to={getNextPageLink()} className={styles.item}>
+        <Link href={getNextPageLink()} className={styles.item}>
           <FaChevronRight />
         </Link>
       </nav>
