@@ -1,6 +1,6 @@
+import { useRouter } from 'next/router';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { MdOutlineClose } from 'react-icons/md';
-import { useSearchParams } from 'react-router-dom';
 import IconButton from '@/components/common/IconButton';
 import Loader from '@/components/features/Loader';
 import { useGetDataByIdQuery } from '@/services/star-wars';
@@ -8,15 +8,18 @@ import { useGetDataByIdQuery } from '@/services/star-wars';
 import styles from './DetailCard.module.scss';
 
 function DetailCard() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const id = searchParams.get('_details');
+  const router = useRouter();
+  const _details = router.query['_details'];
+  const id = typeof _details === 'string' ? _details : '';
+
   const { data, isLoading } = useGetDataByIdQuery(id ?? skipToken);
 
   const handleClose = () => {
-    setSearchParams((searchParams) => {
-      searchParams.delete('_details');
-      return searchParams;
-    });
+    // setSearchParams((searchParams) => {
+    //   searchParams.delete('_details');
+    //   return searchParams;
+    // });
+    // const {_details, ...rest} = router.query;
   };
 
   return (
