@@ -8,6 +8,8 @@ import { createWrapper } from 'next-redux-wrapper';
 import { api } from '@/services/star-wars';
 import searchReducer, { searchSlice } from '@/store/searchSlice';
 
+const isDevMode = process.env.NODE_ENV !== 'production';
+
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   search: searchReducer,
@@ -34,7 +36,7 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
           })
         )
         .concat(api.middleware),
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: isDevMode,
   });
 };
 
@@ -45,5 +47,5 @@ export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = AppStore['dispatch'];
 
 export const wrapper = createWrapper<AppStore>(makeStore, {
-  debug: true,
+  debug: isDevMode,
 });

@@ -18,14 +18,6 @@ function DetailCard({ onClose }: Props) {
 
   const { data, isLoading } = useGetDataByIdQuery(id ?? skipToken);
 
-  //const handleClose = () => {
-  // setSearchParams((searchParams) => {
-  //   searchParams.delete('_details');
-  //   return searchParams;
-  // });
-  // const {_details, ...rest} = router.query;
-  //};
-
   return (
     <div className={styles['detail-card']} data-testid="detail-card">
       {isLoading && (
