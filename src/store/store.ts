@@ -22,7 +22,7 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
         .prepend(
           nextReduxCookieMiddleware({
             subtrees: [
-              `${searchSlice.name}.counter`,
+              `${searchSlice.name}.store`,
               {
                 subtree: `${searchSlice.name}.searchTerm`,
                 cookieName: 'NEXT_SEARCH_TERM',

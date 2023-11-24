@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import { ELEMENTS_PER_PAGE } from '@/constants';
 import { RootState } from '@/store/store';
 import { api } from '@/services/star-wars';
@@ -29,6 +30,10 @@ export const searchSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase<typeof HYDRATE, PayloadAction<RootState, typeof HYDRATE>>(
+      HYDRATE,
+      (state, { payload }) => ({ ...state, ...payload.search })
+    );
     builder.addMatcher(api.endpoints.getData.matchPending, (state) => {
       state.isLoadingData = true;
     });

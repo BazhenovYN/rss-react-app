@@ -33,7 +33,7 @@ function Pagination({ count, currentPage }: Props) {
       i === currentPage ? `${styles.item} ${styles.active}` : styles.item;
 
     items.push(
-      <Link href={getPageLink(i)} key={i} className={className}>
+      <Link href={getPageLink(i)} key={i} className={className} shallow>
         {i}
       </Link>
     );
@@ -42,11 +42,11 @@ function Pagination({ count, currentPage }: Props) {
   return (
     <div className={styles.container}>
       <nav aria-label="pagination" className={styles.pagination}>
-        <Link href={getPrevPageLink()} className={styles.item}>
+        <Link href={getPrevPageLink()} className={styles.item} shallow>
           <FaChevronLeft />
         </Link>
         {items}
-        <Link href={getNextPageLink()} className={styles.item}>
+        <Link href={getNextPageLink()} className={styles.item} shallow>
           <FaChevronRight />
         </Link>
       </nav>
