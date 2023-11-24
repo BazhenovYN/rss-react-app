@@ -7,20 +7,24 @@ import { useGetDataByIdQuery } from '@/services/star-wars';
 
 import styles from './DetailCard.module.scss';
 
-function DetailCard() {
+interface Props {
+  onClose: () => void;
+}
+
+function DetailCard({ onClose }: Props) {
   const router = useRouter();
   const _details = router.query['_details'];
   const id = typeof _details === 'string' ? _details : '';
 
   const { data, isLoading } = useGetDataByIdQuery(id ?? skipToken);
 
-  const handleClose = () => {
-    // setSearchParams((searchParams) => {
-    //   searchParams.delete('_details');
-    //   return searchParams;
-    // });
-    // const {_details, ...rest} = router.query;
-  };
+  //const handleClose = () => {
+  // setSearchParams((searchParams) => {
+  //   searchParams.delete('_details');
+  //   return searchParams;
+  // });
+  // const {_details, ...rest} = router.query;
+  //};
 
   return (
     <div className={styles['detail-card']} data-testid="detail-card">
@@ -72,7 +76,7 @@ function DetailCard() {
         </>
       )}
       <IconButton
-        onClick={handleClose}
+        onClick={onClose}
         className={styles.close}
         data-testid="close-button"
       >

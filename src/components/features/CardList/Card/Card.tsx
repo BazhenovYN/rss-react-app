@@ -26,24 +26,24 @@ function Card({ content }: Props) {
 
   const isShowDetails = detailsId === id.toString();
 
-  const handleDetails = () => {
-    if (isShowDetails) {
-      router.push(
-        {
-          query: { ...queryWithoutDetails },
-        },
-        undefined,
-        { shallow: true }
-      );
-    } else {
-      router.push(
-        {
-          query: { ...router.query, _details: id },
-        },
-        undefined,
-        { shallow: true }
-      );
-    }
+  const openDetails = () => {
+    router.push(
+      {
+        query: { ...router.query, _details: id },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
+  const closeDetails = () => {
+    router.push(
+      {
+        query: { ...queryWithoutDetails },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   return (
@@ -76,14 +76,14 @@ function Card({ content }: Props) {
           </div>
           <div className={styles['btn-container']}>
             <IconButton
-              onClick={handleDetails}
+              onClick={isShowDetails ? closeDetails : openDetails}
               className={isShowDetails ? styles.active : ''}
             >
               <FaChevronRight />
             </IconButton>
           </div>
         </div>
-        {isShowDetails && <DetailCard />}
+        {isShowDetails && <DetailCard onClose={closeDetails} />}
       </div>
     </>
   );
