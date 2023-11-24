@@ -6,3 +6,4 @@ export const ELEMENTS_PER_PAGE = {
   md: 20,
   lg: 30,
 };
+export const FIRST_PAGE = 1;

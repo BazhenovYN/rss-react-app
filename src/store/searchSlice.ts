@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ELEMENTS_PER_PAGE, SEARCH_TERM_KEY } from '@/constants';
+import { ELEMENTS_PER_PAGE } from '@/constants';
 import { RootState } from '@/store/store';
 import { api } from '@/services/star-wars';
-import { getFromLocalStorage } from '@/utils/storageUtils';
 
 export interface ISearchState {
   searchTerm: string;
@@ -12,7 +11,7 @@ export interface ISearchState {
 }
 
 const initialState: ISearchState = {
-  searchTerm: getFromLocalStorage<string>(SEARCH_TERM_KEY) ?? '',
+  searchTerm: '',
   itemPerPage: ELEMENTS_PER_PAGE.sm,
   isLoadingData: false,
   isLoadingDetailedData: false,

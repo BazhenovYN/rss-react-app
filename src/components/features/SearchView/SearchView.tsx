@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { useSearchParams } from 'react-router-dom';
-import { ELEMENTS_PER_PAGE, SEARCH_TERM_KEY } from '@/app/const';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useRouter } from 'next/router';
+import { ELEMENTS_PER_PAGE, FIRST_PAGE, SEARCH_TERM_KEY } from '@/constants';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import Button from '@/components/common/Button';
 import ItemPerPageSelector from '@/components/common/ItemPerPageSelector';
 import Pagination from '@/components/common/Pagination';
@@ -21,9 +21,9 @@ import { saveToLocalStorage } from '@/utils/storageUtils';
 import styles from './SearchView.module.scss';
 
 const SEARCH_PLACEHOLDER = 'You looking for, who are?';
-const FIRST_PAGE = 1;
 
 function SearchView() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const searchTerm = useAppSelector(selectSearchTerm);
@@ -34,9 +34,8 @@ function SearchView() {
     inputRef.current.value = searchTerm;
   }
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const pageParam = searchParams.get('_page');
-  const page = pageParam ? parseInt(pageParam, 10) : FIRST_PAGE;
+  const _page = router.query['_page'];
+  const page = typeof _page === 'string' ? Number(_page) : FIRST_PAGE;
 
   const { data, isLoading } = useGetDataQuery({
     name: searchTerm,
@@ -50,10 +49,10 @@ function SearchView() {
   };
 
   const resetPage = () => {
-    setSearchParams((searchParams) => {
-      searchParams.delete('_page');
-      return searchParams;
-    });
+    // setSearchParams((searchParams) => {
+    //   searchParams.delete('_page');
+    //   return searchParams;
+    // });
   };
 
   const handleSearch = () => {

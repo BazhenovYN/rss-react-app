@@ -1,10 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
 import { API_URL, PATH } from '@/constants';
 import type { IDataFragment, IPeople } from '@/types';
 
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     getDataById: builder.query<IPeople, string>({
       query: (id) => `${PATH}/${id}`,
@@ -40,4 +46,10 @@ export const api = createApi({
   }),
 });
 
-export const { useGetDataByIdQuery, useGetDataQuery } = api;
+export const {
+  useGetDataByIdQuery,
+  useGetDataQuery,
+  util: { getRunningQueriesThunk },
+} = api;
+
+export const { getDataById, getData } = api.endpoints;
