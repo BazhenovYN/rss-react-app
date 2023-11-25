@@ -1,10 +1,9 @@
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Mock, vi } from 'vitest';
 import { apiData } from '@/mocks/data';
 import { useGetDataByIdQuery } from '@/services/star-wars';
 import DetailCard from './DetailCard';
-import Card from '../CardList/Card';
 
 vi.mock('@/services/star-wars', () => ({
   useGetDataByIdQuery: vi.fn(),
@@ -19,9 +18,9 @@ describe('DetailCard', () => {
       isLoading: false,
     });
     render(
-      <MemoryRouter initialEntries={[`/?_details=${testData.id}`]}>
-        <DetailCard />
-      </MemoryRouter>
+      <MemoryRouterProvider url={`/?_details=${testData.id}`}>
+        <DetailCard onClose={vi.fn()} />
+      </MemoryRouterProvider>
     );
     const gender = await screen.findByText(testData.gender);
     const birthYear = await screen.findByText(testData.birth_year);
@@ -48,29 +47,29 @@ describe('DetailCard', () => {
       isLoading: true,
     });
     render(
-      <MemoryRouter initialEntries={[`/?_details=${testData.id}`]}>
-        <DetailCard />
-      </MemoryRouter>
+      <MemoryRouterProvider url={`/?_details=${testData.id}`}>
+        <DetailCard onClose={vi.fn()} />
+      </MemoryRouterProvider>
     );
     const loader = screen.getByRole('status');
     expect(loader).toBeInTheDocument();
   });
 
   test('3. clicking the close button hides the component', async () => {
-    const { findByTestId } = render(
-      <MemoryRouter initialEntries={[`/?_details=${testData.id}`]}>
-        <Routes>
-          <Route path="" element={<Card content={testData} />}>
-            <Route path="" element={<DetailCard />} />
-          </Route>
-        </Routes>
-      </MemoryRouter>
+    (useGetDataByIdQuery as Mock).mockReturnValue({
+      data: testData,
+      isLoading: false,
+    });
+    const onCloseMock = vi.fn();
+    const { findByRole } = render(
+      <MemoryRouterProvider url={`/?_details=${testData.id}`}>
+        <DetailCard onClose={onCloseMock} />
+      </MemoryRouterProvider>
     );
-    const detailCard = await findByTestId('detail-card');
-    expect(detailCard).toBeInTheDocument();
 
-    const closeButton = await findByTestId('close-button');
+    const closeButton = await findByRole('button');
     fireEvent.click(closeButton);
-    expect(detailCard).not.toBeInTheDocument();
+
+    expect(onCloseMock).toHaveBeenCalledTimes(1);
   });
 });

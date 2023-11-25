@@ -1,4 +1,4 @@
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { apiData } from '@/mocks/data';
@@ -12,7 +12,7 @@ describe('CardList', () => {
   test('1. renders correctly', () => {
     const testData = apiData.slice(0, 5);
     const { getAllByTestId } = render(<CardList items={testData} />, {
-      wrapper: MemoryRouter,
+      wrapper: MemoryRouterProvider,
     });
     const cards = getAllByTestId('card');
     expect(cards).toHaveLength(testData.length);
