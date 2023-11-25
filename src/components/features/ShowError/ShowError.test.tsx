@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
-import ShowError from './ShowError';
 import { Mock, vi } from 'vitest';
+import ShowError from './ShowError';
 
 describe('ShowError', () => {
   beforeEach(() => {

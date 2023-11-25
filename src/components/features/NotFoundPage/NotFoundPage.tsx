@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import Button from '@/components/common/Button';
 
-import styles from './NotFound.module.scss';
+import styles from './NotFoundPage.module.scss';
 
-function NotFound() {
+function NotFoundPage() {
   return (
     <div className={styles.container}>
       <h1>Page not found</h1>
-      <Link to="/">
+      <Link href="/">
         <Button>Back Home</Button>
       </Link>
     </div>
   );
 }
 
-export default NotFound;
+export default NotFoundPage;

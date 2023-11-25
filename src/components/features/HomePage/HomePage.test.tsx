@@ -1,13 +1,13 @@
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { renderWithProviders } from '@/utils/test-utils';
-import Home from './Home';
+import HomePage from './HomePage';
 
-describe('Home', () => {
+describe('HomePage', () => {
   test('renders correctly', () => {
     const { getByText } = renderWithProviders(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
+      <MemoryRouterProvider>
+        <HomePage />
+      </MemoryRouterProvider>
     );
     const header = getByText(/star wars/i);
     expect(header).toBeInTheDocument();

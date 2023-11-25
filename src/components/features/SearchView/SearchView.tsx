@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { useSearchParams } from 'react-router-dom';
-import { ELEMENTS_PER_PAGE, SEARCH_TERM_KEY } from '@/app/const';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useRouter } from 'next/router';
+import { ELEMENTS_PER_PAGE, FIRST_PAGE } from '@/constants';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import Button from '@/components/common/Button';
 import ItemPerPageSelector from '@/components/common/ItemPerPageSelector';
 import Pagination from '@/components/common/Pagination';
@@ -16,14 +16,13 @@ import {
   setItemsPerPage,
   setSearchTerm,
 } from '@/store/searchSlice';
-import { saveToLocalStorage } from '@/utils/storageUtils';
 
 import styles from './SearchView.module.scss';
 
 const SEARCH_PLACEHOLDER = 'You looking for, who are?';
-const FIRST_PAGE = 1;
 
 function SearchView() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const searchTerm = useAppSelector(selectSearchTerm);
@@ -34,9 +33,8 @@ function SearchView() {
     inputRef.current.value = searchTerm;
   }
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const pageParam = searchParams.get('_page');
-  const page = pageParam ? parseInt(pageParam, 10) : FIRST_PAGE;
+  const { _page, ...queryWithoutPage } = router.query;
+  const page = typeof _page === 'string' ? Number(_page) : FIRST_PAGE;
 
   const { data, isLoading } = useGetDataQuery({
     name: searchTerm,
@@ -50,23 +48,31 @@ function SearchView() {
   };
 
   const resetPage = () => {
-    setSearchParams((searchParams) => {
-      searchParams.delete('_page');
-      return searchParams;
-    });
+    router.push(
+      {
+        query: { ...queryWithoutPage },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const handleSearch = () => {
     const newSearchTerm = inputRef.current?.value ?? '';
-    dispatch(setSearchTerm(newSearchTerm));
-    saveToLocalStorage(SEARCH_TERM_KEY, newSearchTerm.trim());
     resetPage();
+    dispatch(setSearchTerm(newSearchTerm));
   };
 
   const handleChangeItemsPerPage = (newValue: number) => {
     resetPage();
     dispatch(setItemsPerPage(newValue));
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = searchTerm;
+    }
+  }, [searchTerm]);
 
   return (
     <div className={styles.container} data-testid="search-section">

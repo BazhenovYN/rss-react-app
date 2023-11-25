@@ -1,4 +1,4 @@
-@import '@/styles/_variables';
+@import '@/styles/variables';
 
 .container {
   position: relative;
@@ -45,7 +45,7 @@
 
 .btn-container {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .detail {

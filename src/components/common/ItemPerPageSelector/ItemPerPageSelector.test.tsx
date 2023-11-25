@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
-import { ELEMENTS_PER_PAGE } from '@/app/const';
+import { ELEMENTS_PER_PAGE } from '@/constants';
 import ItemPerPageSelector from './ItemPerPageSelector';
 
 describe('ItemPerPageSelector', () => {

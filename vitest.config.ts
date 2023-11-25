@@ -1,13 +1,9 @@
-/// <reference types="vitest" />
-/// <reference types="vite/client" />
-
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), svgr()],
+  plugins: [react(), svgr({ include: '**/*.svg' })],
   resolve: {
     alias: [{ find: '@', replacement: '/src' }],
   },
@@ -21,7 +17,6 @@ export default defineConfig({
       all: true,
       include: [
         '**/src/components/**/*.{tsx,ts}',
-        '**/src/pages/**/*.{tsx,ts}',
         '**/src/services/**/*.{tsx,ts}',
         '**/src/utils/**/*.{tsx,ts}',
       ],

@@ -1,6 +1,7 @@
+import { useRouter } from 'next/router';
 import { FaChevronRight } from 'react-icons/fa';
-import { Outlet, useSearchParams } from 'react-router-dom';
 import IconButton from '@/components/common/IconButton';
+import DetailCard from '@/components/features/DetailCard';
 import type { IPeople } from '@/types';
 
 import styles from './Card.module.scss';
@@ -19,23 +20,30 @@ function Card({ content }: Props) {
     hair_color: hairColor,
   } = content;
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const detailId = searchParams.get('_details');
+  const router = useRouter();
+  const { _details, ...queryWithoutDetails } = router.query;
+  const detailsId = typeof _details === 'string' ? _details : '';
 
-  const isShowDetails = detailId === id.toString();
+  const isShowDetails = detailsId === id.toString();
 
-  const handleDetails = () => {
-    if (isShowDetails) {
-      setSearchParams((searchParams) => {
-        searchParams.delete('_details');
-        return searchParams;
-      });
-    } else {
-      setSearchParams((searchParams) => {
-        searchParams.set('_details', id.toString());
-        return searchParams;
-      });
-    }
+  const openDetails = () => {
+    router.push(
+      {
+        query: { ...router.query, _details: id },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
+  const closeDetails = () => {
+    router.push(
+      {
+        query: { ...queryWithoutDetails },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   return (
@@ -68,14 +76,14 @@ function Card({ content }: Props) {
           </div>
           <div className={styles['btn-container']}>
             <IconButton
-              onClick={handleDetails}
+              onClick={isShowDetails ? closeDetails : openDetails}
               className={isShowDetails ? styles.active : ''}
             >
               <FaChevronRight />
             </IconButton>
           </div>
         </div>
-        {isShowDetails && <Outlet />}
+        {isShowDetails && <DetailCard onClose={closeDetails} />}
       </div>
     </>
   );

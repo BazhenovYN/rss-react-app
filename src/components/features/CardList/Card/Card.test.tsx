@@ -1,7 +1,6 @@
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import mockRouter from 'next-router-mock';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { fireEvent } from '@testing-library/react';
-import { vi } from 'vitest';
-import DetailCard from '@/components/features/DetailCard';
 import { apiData } from '@/mocks/data';
 import { IPeople } from '@/types';
 import { renderWithProviders } from '@/utils/test-utils';
@@ -12,7 +11,7 @@ describe('Card', () => {
 
   test('1. renders correctly', () => {
     const { getByText } = renderWithProviders(<Card content={testData} />, {
-      wrapper: MemoryRouter,
+      wrapper: MemoryRouterProvider,
     });
     const gender = getByText(testData.gender);
     const height = getByText(testData.height);
@@ -25,34 +24,20 @@ describe('Card', () => {
     expect(hairColor).toBeInTheDocument();
   });
 
-  test('2. clicking on a card opens a detailed card component with additional API call', async () => {
-    const spy = vi.spyOn(global, 'fetch');
-    const { findByRole, findByTestId } = renderWithProviders(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="" element={<Card content={testData} />}>
-            <Route path="" element={<DetailCard />} />
-          </Route>
-        </Routes>
-      </MemoryRouter>
-    );
+  test('2. clicking on a card opens a detailed card component', async () => {
+    const { findByRole } = renderWithProviders(<Card content={testData} />, {
+      wrapper: MemoryRouterProvider,
+    });
     const button = await findByRole('button');
     fireEvent.click(button);
-
-    const detailCard = await findByTestId('detail-card');
-    expect(detailCard).toBeInTheDocument();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(mockRouter.asPath).toEqual(`/?_details=${testData.id}`);
   });
 
   test('3. renders correctly when detail data is opened', () => {
     const { getByTestId } = renderWithProviders(
-      <MemoryRouter initialEntries={[`/?_details=${testData.id}`]}>
-        <Routes>
-          <Route path="" element={<Card content={testData} />}>
-            <Route path="" element={<DetailCard />} />
-          </Route>
-        </Routes>
-      </MemoryRouter>
+      <MemoryRouterProvider url={`/?_details=${testData.id}`}>
+        <Card content={testData} />
+      </MemoryRouterProvider>
     );
     const card = getByTestId('card');
     const detailCard = getByTestId('detail-card');

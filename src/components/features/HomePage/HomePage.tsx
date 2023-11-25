@@ -1,9 +1,9 @@
 import SearchView from '@/components/features/SearchView';
 import ShowError from '@/components/features/ShowError';
 
-import styles from './Home.module.scss';
+import styles from './HomePage.module.scss';
 
-function Home() {
+function HomePage() {
   return (
     <>
       <section className={styles.home}>
@@ -15,4 +15,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;
