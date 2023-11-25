@@ -49,12 +49,14 @@
     "jsdom": "^22.1.0",
     "lint-staged": "^15.1.0",
     "msw": "^2.0.8",
+    "next-router-mock": "^0.9.10",
     "prettier": "^3.1.0",
     "sass": "^1.69.5",
     "stylelint": "^15.11.0",
     "stylelint-config-recess-order": "^4.4.0",
     "stylelint-config-standard-scss": "^11.1.0",
     "typescript": "^5",
+    "vite-plugin-svgr": "^4.2.0",
     "vitest": "^0.34.6"
   }
 }
