@@ -1,0 +1,20 @@
+@import '@/styles/variables';
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+  color: $light-text-color;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: rgba($default-border-color, 0.3);
+  }
+}

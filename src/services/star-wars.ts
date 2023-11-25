@@ -1,0 +1,55 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
+import { API_URL, PATH } from '@/constants';
+import type { IDataFragment, IPeople } from '@/types';
+
+export const api = createApi({
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
+  endpoints: (builder) => ({
+    getDataById: builder.query<IPeople, string>({
+      query: (id) => `${PATH}/${id}`,
+    }),
+    getData: builder.query<
+      IDataFragment,
+      { name: string; page?: number; limit?: number }
+    >({
+      query: ({ name, page, limit }) => {
+        const params = new URLSearchParams();
+        if (name) {
+          params.set('name_like', name.trim());
+        }
+        if (page && page > 1) {
+          params.set('_page', page.toString());
+        }
+        if (limit && limit > 0) {
+          params.set('_limit', limit.toString());
+        }
+        const queryParams = params.toString();
+        return `${PATH}${queryParams ? `?${queryParams}` : ''}`;
+      },
+      transformResponse(response: IPeople[], meta) {
+        const totalCount = meta?.response
+          ? Number(meta.response.headers.get('X-Total-Count'))
+          : 0;
+        return {
+          results: response,
+          totalCount,
+        };
+      },
+    }),
+  }),
+});
+
+export const {
+  useGetDataByIdQuery,
+  useGetDataQuery,
+  util: { getRunningQueriesThunk },
+} = api;
+
+export const { getDataById, getData } = api.endpoints;
